@@ -11,3 +11,4 @@ Console application for managing food recipes.
 
 ## Extended task
 - Recipe will be automatically saved into the file
+- Create Eater and some type of them like vegetarian, special diet,  allergy sufferer... 
