@@ -10,28 +10,23 @@ namespace CookBook
     {
         static void Main(string[] args)
         {
-            string name = "k";
+            UserIOConsole console = new UserIOConsole();
             
-            
-
-            
-            //while (true)
-            //{
-                Console.WriteLine("Zadej jmeno receptu");
-                Console.ReadLine();
-            if (Console.ReadKey().Key == ConsoleKey.Escape)
+            console.WriteLine("Zadej jmeno receptu");
+            string name = console.GetUserInputString();
+            //TODO udelat vypis na konzoli rozsahu dynamicky
+            console.WriteLine("Vyber kategorii receptu. Od 0 do 4.");
+            int enumCategoryCount = Enum.GetNames(typeof(Category)).Length;
+            int category = console.GetUserInputInteger();
+            while (category < 0 | category > enumCategoryCount)
             {
-                Console.WriteLine("zmackl jsem esc");
+                console.WriteLine("Zadal jsi číslo v nesprávném rozsahu. Opakuj zadání.");
+                category = console.GetUserInputInteger();
             }
-            
-            //}
+            Recipe testRecipe = new Recipe(name, new Procedure(), new Ingredients(), category);
 
-            Recipe testRecipe = new Recipe(name, new Procedure(), new Ingredients(), 0);
-            
-            
-            Console.WriteLine("kategorie" + testRecipe.Category);
+            Console.WriteLine("jsem na konci programu");
             Console.ReadLine();
-
         }
     }
 }

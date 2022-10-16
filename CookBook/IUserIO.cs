@@ -9,10 +9,11 @@ namespace CookBook
     abstract class IUserIO
     {
         public abstract string GetUserInputString();
-        public abstract int GetUserInputInteger (string userInput);
-        public abstract void CheckIfUserTerminateApplication ();
+        public abstract int GetUserInputInteger();
+        public abstract void WriteLine(string text);
+        public abstract bool CheckIfUserTerminateApplication ();
 
-        public void ExitApplication()
+        internal void ExitApplication()
         {
             System.Environment.Exit(0);
         }
