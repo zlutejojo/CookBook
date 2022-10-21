@@ -10,11 +10,11 @@ namespace CookBook
     {
         public string Name { get; private set; }
         public Procedure Procedure { get; private set; }
-        public Ingredients Ingredients { get; private set; }
-        public Category Category { get; private set; }
+        public List<Ingredients> Ingredients { get; private set; }
+        public RecipeCategory RecipeCategory { get; private set; }
         public bool IsRecipeSetCorrectly { get; private set; } = false;
 
-        public Recipe(string name, Procedure procedure, Ingredients ingredients, int categoryNumber)
+        public Recipe(string name, Procedure procedure, List<Ingredients> ingredients, int categoryNumber)
         {
             if (!(String.IsNullOrEmpty(name)))
             {
@@ -47,11 +47,10 @@ namespace CookBook
                 Console.WriteLine("Postup neni spravne nastaveny.");
             }
 
-            var myEnumMemberCount = Enum.GetNames(typeof(Category)).Length;
-            //TODO vyzkouset podminku!!!!!
+            var myEnumMemberCount = Enum.GetNames(typeof(RecipeCategory)).Length;
             if (!(categoryNumber < 0 | categoryNumber > myEnumMemberCount))
             {
-                this.Category = (Category)categoryNumber; 
+                this.RecipeCategory = (RecipeCategory)categoryNumber; 
                 IsRecipeSetCorrectly = true;
             }
             else

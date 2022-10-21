@@ -34,6 +34,16 @@ namespace CookBook
             }
             return input;
         }
+        /*
+        public bool testuju(int category, int enumCategoryCount)
+        {
+            while (category < 0 | category > enumCategoryCount)
+            {
+                Console.WriteLine("Zadal jsi číslo v nesprávném rozsahu. Opakuj zadání.");
+                category = this.GetUserInputInteger();
+            }
+            return true;
+        }*/
         //TODO zapojit kontrolu, jestli uzivatel chce ukoncit program
         public override bool CheckIfUserTerminateApplication()
         {

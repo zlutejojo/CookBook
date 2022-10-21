@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CookBook
 {
-    internal enum Category
+    public enum RecipeCategory
     {
         Meat,
         Vegetarian,

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace CookBook
 {
-    abstract class IUserIO
+    //TODO zmenit na interface (asi)
+    public abstract class IUserIO
     {
         public abstract string GetUserInputString();
         public abstract int GetUserInputInteger();
@@ -17,7 +18,5 @@ namespace CookBook
         {
             System.Environment.Exit(0);
         }
-
-       
     }
 }
