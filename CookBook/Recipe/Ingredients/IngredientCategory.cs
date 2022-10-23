@@ -9,7 +9,7 @@ namespace CookBook
     public enum IngredientCategory
     {
         Meat,
-        Vegetables,
+        VegetablesAndFruits,
         Others
     }
 }

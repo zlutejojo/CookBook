@@ -43,18 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IngredientCategory.cs" />
-    <Compile Include="RecipeCategory.cs" />
-    <Compile Include="Difficulty.cs" />
-    <Compile Include="Ingredients.cs" />
-    <Compile Include="Meat.cs" />
-    <Compile Include="Procedure.cs" />
+    <Compile Include="Recipe\Ingredients\IngredientCategory.cs" />
+    <Compile Include="Recipe\RecipeCategory.cs" />
+    <Compile Include="Recipe\Procedure\Difficulty.cs" />
+    <Compile Include="Recipe\Ingredients\Ingredients.cs" />
+    <Compile Include="Recipe\Ingredients\Meat.cs" />
+    <Compile Include="Recipe\Procedure\Procedure.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Recipe.cs" />
-    <Compile Include="UserIOConsole.cs" />
-    <Compile Include="IUserIO.cs" />
-    <Compile Include="Vegetables.cs" />
+    <Compile Include="Recipe\Recipe.cs" />
+    <Compile Include="UserIO\UserIOConsole.cs" />
+    <Compile Include="UserIO\IUserIO.cs" />
+    <Compile Include="Recipe\Ingredients\VegetablesAndFruits.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -14,7 +14,8 @@ namespace CookBook
         public RecipeCategory RecipeCategory { get; private set; }
         public bool IsRecipeSetCorrectly { get; private set; } = false;
 
-        public Recipe(string name, Procedure procedure, List<Ingredients> ingredients, int categoryNumber)
+        //todo zmenit nastaveni IsRecipeSetCorrectly, ted se mi nastavi na true, pokud jedna z podminek je spravne
+        public Recipe(string name, Procedure procedure, List<Ingredients> ingredients, int recipeCategory)
         {
             if (!(String.IsNullOrEmpty(name)))
             {
@@ -48,9 +49,9 @@ namespace CookBook
             }
 
             var myEnumMemberCount = Enum.GetNames(typeof(RecipeCategory)).Length;
-            if (!(categoryNumber < 0 | categoryNumber > myEnumMemberCount))
+            if (!(recipeCategory < 0 | recipeCategory > myEnumMemberCount))
             {
-                this.RecipeCategory = (RecipeCategory)categoryNumber; 
+                this.RecipeCategory = (RecipeCategory)recipeCategory; 
                 IsRecipeSetCorrectly = true;
             }
             else

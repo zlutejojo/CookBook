@@ -9,7 +9,7 @@ namespace CookBook
         public DateTime Expiration { get; private set; }
         public IngredientCategory IngredientCategory { get; private set; }
 
-        public Ingredients(string name, DateTime expiration, int categoryNumber)
+        public Ingredients(string name, DateTime expiration, int ingredientCategory)
         {
             if (!(String.IsNullOrEmpty(name)))
             {
@@ -23,9 +23,9 @@ namespace CookBook
 
 
             var myEnumMemberCount = Enum.GetNames(typeof(IngredientCategory)).Length;
-            if (!(categoryNumber < 0 | categoryNumber > myEnumMemberCount))
+            if (!(ingredientCategory < 0 | ingredientCategory > myEnumMemberCount))
             {
-                this.IngredientCategory = (IngredientCategory)categoryNumber;
+                this.IngredientCategory = (IngredientCategory)ingredientCategory;
             }
             else
             {
