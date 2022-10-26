@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CookBook
 {
-    internal class Recipe
+    public class MyRecipe
     {
         public string Name { get; private set; }
         public Procedure Procedure { get; private set; }
@@ -15,7 +15,7 @@ namespace CookBook
         public bool IsRecipeSetCorrectly { get; private set; } = false;
 
         //todo zmenit nastaveni IsRecipeSetCorrectly, ted se mi nastavi na true, pokud jedna z podminek je spravne
-        public Recipe(string name, Procedure procedure, List<Ingredients> ingredients, int recipeCategory)
+        public MyRecipe(string name, Procedure procedure, List<Ingredients> ingredients, int recipeCategory)
         {
             if (!(String.IsNullOrEmpty(name)))
             {

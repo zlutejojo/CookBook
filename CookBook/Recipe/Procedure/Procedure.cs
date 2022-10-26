@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CookBook
 {
-    internal class Procedure
+    public class Procedure
     {
         internal int PreparationTimeInMinutes { get; private set; }
         internal Difficulty Difficulty { get; private set; }
