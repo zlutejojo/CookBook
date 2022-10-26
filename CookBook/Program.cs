@@ -20,8 +20,11 @@ namespace CookBook
 
             //KATEGORIE RECEPTU
             int enumRecipeCategoryCount = Enum.GetNames(typeof(RecipeCategory)).Length;
-            //TODO udelat vypis, ktere kategorie jsou pro jake cislo
-            myConsole.WriteLine($"Vyber kategorii receptu. Od 0 do {enumRecipeCategoryCount-1}.");
+            myConsole.WriteLine("Zadej číslo kategorie ingredience podle této tabulky:");
+            for (int i = 0; i < enumRecipeCategoryCount; i++)
+            {
+                myConsole.WriteLine($"{i} je {(RecipeCategory)i}");
+            }
             int testRecipeCategory = myConsole.GetUserInputIntegerInGivenRange(0,enumRecipeCategoryCount-1);
             myConsole.WriteLine($"kategorie receptu je {testRecipeCategory}");
             //KATEGORIE RECEPTU
@@ -34,14 +37,13 @@ namespace CookBook
             List<Ingredients> ingredientsList = new List<Ingredients>();
             int enumIngredientCategoryCount = Enum.GetNames(typeof(IngredientCategory)).Length;
 
-            for (int i = 0; i < enumIngredientCategoryCount; i++)
-            {
-                myConsole.WriteLine($"Zadej TODO pro kategorii ");
-            }
-
             for (int j = 0; j < ingredientsCount; j++)
             {
-                myConsole.WriteLine($"Zadej kategorii ingredience od 0 do {enumIngredientCategoryCount - 1}");
+                myConsole.WriteLine("Zadej číslo kategorie ingredience podle této tabulky:");
+                for (int i = 0; i < enumIngredientCategoryCount; i++)
+                {
+                    myConsole.WriteLine($"{i} je {(IngredientCategory)i}");
+                }
                 int ingredientCategory = myConsole.GetUserInputIntegerInGivenRange(0, enumIngredientCategoryCount);
 
                 switch (ingredientCategory)
