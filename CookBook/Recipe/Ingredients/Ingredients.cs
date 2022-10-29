@@ -23,8 +23,8 @@ namespace CookBook
             }
             this.Expiration = expiration;
 
-            var myEnumMemberCount = Enum.GetNames(typeof(IngredientCategory)).Length;
-            if (!(ingredientCategory < 0 || ingredientCategory > myEnumMemberCount))
+            var ingredinetCategoryEnumEnumCount = Enum.GetNames(typeof(IngredientCategory)).Length;
+            if (!(ingredientCategory < 0 || ingredientCategory > ingredinetCategoryEnumEnumCount))
             {
                 this.IngredientCategory = (IngredientCategory)ingredientCategory;
             }
@@ -104,6 +104,9 @@ namespace CookBook
 
         public static List<Ingredients> GetIngredientsListFromUser()
         {
+            userIOConsole.WriteLine("Nyní se pustíme do vyplňování ingredinecí.");
+            userIOConsole.WriteLine("Nejprve zadej, kolik celkově budeš vyplňovat ingrediencí.");
+
             List<Ingredients> ingredientsList = new List<Ingredients>();
 
             int ingredientsCount = userIOConsole.GetUserInputInteger();

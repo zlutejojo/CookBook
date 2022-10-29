@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CookBook
 {
-    internal enum Difficulty
+    public enum Difficulty
     {
         Low,
         Medium,

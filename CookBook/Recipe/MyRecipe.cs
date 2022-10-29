@@ -9,13 +9,15 @@ namespace CookBook
     public class MyRecipe
     {
         public string Name { get; private set; }
+        public RecipeCategory RecipeCategory { get; private set; }
         public Procedure Procedure { get; private set; }
         public List<Ingredients> Ingredients { get; private set; }
-        public RecipeCategory RecipeCategory { get; private set; }
+        
         public bool IsRecipeSetCorrectly { get; private set; } = false;
+        private static readonly UserIOConsole userIOConsole = new UserIOConsole();
 
         //todo zmenit nastaveni IsRecipeSetCorrectly, ted se mi nastavi na true, pokud jedna z podminek je spravne
-        public MyRecipe(string name, Procedure procedure, List<Ingredients> ingredients, int recipeCategory)
+        public MyRecipe(string name, int recipeCategory, Procedure procedure, List<Ingredients> ingredients)
         {
             if (!(String.IsNullOrEmpty(name)))
             {
@@ -24,7 +26,18 @@ namespace CookBook
             }
             else 
             {
-                Console.WriteLine("Jmeno neni spravne nastaveno.");
+                Console.WriteLine("Jméno není správně nastavené.");
+            }
+
+            var myEnumMemberCount = Enum.GetNames(typeof(RecipeCategory)).Length;
+            if (!(recipeCategory < 0 | recipeCategory > myEnumMemberCount))
+            {
+                this.RecipeCategory = (RecipeCategory)recipeCategory;
+                IsRecipeSetCorrectly = true;
+            }
+            else
+            {
+                Console.WriteLine("Kategorie není správně nastavená.");
             }
 
             if (!(ingredients is null))
@@ -34,7 +47,7 @@ namespace CookBook
             }
             else
             {
-                Console.WriteLine("Ingredience neni spravne nastavena.");
+                Console.WriteLine("Ingredience není správně nastavená.");
             }
 
             if (!(procedure is null))
@@ -45,19 +58,37 @@ namespace CookBook
             }
             else
             {
-                Console.WriteLine("Postup neni spravne nastaveny.");
+                Console.WriteLine("Postup není správně nastavený.");
             }
+        }
 
-            var myEnumMemberCount = Enum.GetNames(typeof(RecipeCategory)).Length;
-            if (!(recipeCategory < 0 | recipeCategory > myEnumMemberCount))
+        public void GetRecipeInfo()
+        {
+            userIOConsole.WriteLine($"Můj recept {this.Name} z kategorie {this.RecipeCategory}.");
+            this.Procedure.GetProcedureInfo();
+            foreach (var item in this.Ingredients)
             {
-                this.RecipeCategory = (RecipeCategory)recipeCategory; 
-                IsRecipeSetCorrectly = true;
+                item.GetIngredientsInfo();
             }
-            else
+        }
+
+        public static string GetRecipeNameFromUser()
+        {
+            userIOConsole.WriteLine("Zadej jmeno receptu");
+            string recipeName = userIOConsole.GetUserInputString();
+            return recipeName;
+        }
+
+        public static int GetRecipeCategoryFromUser()
+        {
+            int enumRecipeCategoryCount = Enum.GetNames(typeof(RecipeCategory)).Length;
+            userIOConsole.WriteLine("Zadej číslo kategorie receptu podle této tabulky:");
+            for (int i = 0; i < enumRecipeCategoryCount; i++)
             {
-                Console.WriteLine("Kategorie neni spravne nastavena.");
+                userIOConsole.WriteLine($"{i} je {(RecipeCategory)i}");
             }
+            int recipeCategory = userIOConsole.GetUserInputIntegerInGivenRange(0, enumRecipeCategoryCount - 1);
+            return recipeCategory;
         }
     }
 }
