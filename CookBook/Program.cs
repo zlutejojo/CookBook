@@ -32,9 +32,12 @@ namespace CookBook
             //LIST INGREDIENCI
             myConsole.WriteLine("Nyní se pustíme do vyplňování ingredinecí.");
             myConsole.WriteLine("Nejprve zadej, kolik celkově budeš vyplňovat ingrediencí.");
-            
+
+            List<Ingredients> ingredientsList = Ingredients.GetIngredientsListFromUser();
+
+            /*List<Ingredients> ingredientsList = new List<Ingredients>();
+
             int ingredientsCount = myConsole.GetUserInputInteger();
-            List<Ingredients> ingredientsList = new List<Ingredients>();
             int enumIngredientCategoryCount = Enum.GetNames(typeof(IngredientCategory)).Length;
 
             for (int j = 0; j < ingredientsCount; j++)
@@ -67,9 +70,8 @@ namespace CookBook
                         //newOthers.GetIngredientsInfo();
                         break;
                 }
-                //TODO vyresit proc se mi vypisuje nekde tady info o ingrediencich
                 myConsole.WriteLine("Skončili jsme s vyplňováním jedné ingredience.");
-            }
+            }*/
             //LIST INGREDIENCI
             myConsole.WriteLine("foreach.");
 
