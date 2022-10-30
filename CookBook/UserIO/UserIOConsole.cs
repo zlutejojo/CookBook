@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CookBook
 {
-    internal class UserIOConsole : IUserIO
+    public class UserIOConsole : IUserIO
     {
         public override void WriteLine(string text)
         {
@@ -26,11 +26,19 @@ namespace CookBook
 
         public override string GetUserInputString()
         {
-            string input = Console.ReadLine().Trim(); ;
+            string input = Console.ReadLine().Trim();
+            if (this.CheckIfInputIsX(input))
+            {
+                this.ExitApplication();
+            }
             while (String.IsNullOrEmpty(input))
             {
                 Console.WriteLine("Zadal jsi neplatný vstup. Opakuj zadání.");
                 input = Console.ReadLine().Trim();
+                if (this.CheckIfInputIsX(input))
+                {
+                    this.ExitApplication();
+                }
             }
             return input;
         }
@@ -38,7 +46,7 @@ namespace CookBook
         public int GetUserInputIntegerInGivenRange(int lowerLimit, int upperLimit)
         {
             int numberToCheck = this.GetUserInputInteger();
-            
+
             while (numberToCheck < lowerLimit | numberToCheck > upperLimit)
             {
                 Console.WriteLine("Zadal jsi číslo v nesprávném rozsahu. Opakuj zadání.");
@@ -46,7 +54,7 @@ namespace CookBook
             }
             return numberToCheck;
         }
-        //TODO zapojit kontrolu, jestli uzivatel chce ukoncit program
+        //TODO zkusit pouzit readkey
         public override bool CheckIfUserTerminateApplication()
         {
             if (Console.ReadKey().Key == ConsoleKey.Escape)
@@ -57,5 +65,9 @@ namespace CookBook
             return false;
         }
 
+        public bool CheckIfInputIsX(string text)
+        {
+            return text == "X" || text == "x";
+        }
     }
 }

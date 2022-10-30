@@ -14,7 +14,7 @@ namespace CookBook
         public abstract void WriteLine(string text);
         public abstract bool CheckIfUserTerminateApplication ();
 
-        internal void ExitApplication()
+        public void ExitApplication()
         {
             System.Environment.Exit(0);
         }

@@ -21,7 +21,6 @@ namespace CookBook
             if (preparationTimeInMinutes > 0)
             {
                 this.PreparationTimeInMinutes = preparationTimeInMinutes;
-
             }
             else
             {

@@ -11,7 +11,9 @@ namespace CookBook
     {
         static void Main(string[] args)
         {
-            UserIOConsole myConsole = new UserIOConsole();
+
+            Console.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, stiskni x.");
+
             string recipeName = MyRecipe.GetRecipeNameFromUser();
             int recipeCategory = MyRecipe.GetRecipeCategoryFromUser();
             List<Ingredients> ingredientsList = Ingredients.GetIngredientsListFromUser();

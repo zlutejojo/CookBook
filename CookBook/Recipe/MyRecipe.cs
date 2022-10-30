@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -74,7 +75,7 @@ namespace CookBook
 
         public static string GetRecipeNameFromUser()
         {
-            userIOConsole.WriteLine("Zadej jmeno receptu");
+            userIOConsole.WriteLine("Zadej jméno receptu");
             string recipeName = userIOConsole.GetUserInputString();
             return recipeName;
         }
