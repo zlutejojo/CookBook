@@ -19,7 +19,7 @@ namespace CookBook
             }
             else
             {
-                userIOConsole.WriteLine("Jmeno ingredience neni spravne nastaveno.");
+                userIOConsole.WriteLine("Jméno ingredience není spravně nastavené.");
             }
             this.Expiration = expiration;
 
@@ -30,7 +30,7 @@ namespace CookBook
             }
             else
             {
-                userIOConsole.WriteLine("Kategorie neni spravne nastavena.");
+                userIOConsole.WriteLine("Kategorie není spravně nastavená.");
             }
 
         }
@@ -65,9 +65,9 @@ namespace CookBook
         {
             Ingredients generalIngredient = FillGeneralPropertyForIngredientInConsole(ingredientCategory);
 
-            userIOConsole.WriteLine("Zadejte bílkoviny v gramech.");
+            userIOConsole.WriteLine("Zadejte množství bílkovin v gramech na 100 g produktu.");
             int proteinGram = userIOConsole.GetUserInputInteger();
-            userIOConsole.WriteLine("Zadejte tuky v gramech.");
+            userIOConsole.WriteLine("Zadejte množství tuků v gramech na 100 g produktu.");
             int fatGram = userIOConsole.GetUserInputInteger();
 
             Meat meat = new Meat(generalIngredient.Name, generalIngredient.Expiration, ingredientCategory, proteinGram, fatGram);
@@ -82,7 +82,7 @@ namespace CookBook
 
             userIOConsole.WriteLine("Zadejte vitamíny obsažené v přísadě.");
             string vitamin = userIOConsole.GetUserInputString();
-            userIOConsole.WriteLine("Zadejte vlákninu v gramech.");
+            userIOConsole.WriteLine("Zadejte množství vlákniny v gramech ve 100 g produktu.");
             int fiberGram = userIOConsole.GetUserInputInteger();
 
             VegetablesAndFruits vegetablesAndFruits = new VegetablesAndFruits(generalIngredient.Name, generalIngredient.Expiration, ingredientCategory, vitamin, fiberGram);
@@ -104,7 +104,7 @@ namespace CookBook
 
         public static List<Ingredients> GetIngredientsListFromUser()
         {
-            userIOConsole.WriteLine("Nyní se pustíme do vyplňování ingredinecí.");
+            userIOConsole.WriteLine("Nyní se pustíme do vyplňování ingrediencí.");
             userIOConsole.WriteLine("Nejprve zadej, kolik celkově budeš vyplňovat ingrediencí.");
 
             List<Ingredients> ingredientsList = new List<Ingredients>();

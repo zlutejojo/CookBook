@@ -48,10 +48,15 @@ namespace CookBook
         }
         public static Procedure GetProcedureFromUser()
         {
-            userIOConsole.WriteLine("Vyplňte celkovou délku přípravy pokrmu.");
+            userIOConsole.WriteLine("Vyplňte celkovou délku přípravy pokrmu v minutách.");
             int preparationTimeInMinutes = userIOConsole.GetUserInputInteger();
             userIOConsole.WriteLine("Vyplňte obtížnost receptu podle následující tabulky.");
-            int difficulty = userIOConsole.GetUserInputIntegerInGivenRange(0, Enum.GetNames(typeof(Difficulty)).Length);
+            int enumRecipeCategoryCount = Enum.GetNames(typeof(Difficulty)).Length;
+            for (int i = 0; i < enumRecipeCategoryCount; i++)
+            {
+                userIOConsole.WriteLine($"{i} je {(RecipeCategory)i}");
+            }
+            int difficulty = userIOConsole.GetUserInputIntegerInGivenRange(0, enumRecipeCategoryCount);
             userIOConsole.WriteLine("Vyplňte postup přípravy.");
             string description = userIOConsole.GetUserInputString();
 
