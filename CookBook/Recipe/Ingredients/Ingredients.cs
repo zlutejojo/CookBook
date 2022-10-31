@@ -1,4 +1,4 @@
-﻿using CookBook.Recipe.Ingredients;
+﻿
 using System;
 using System.Collections.Generic;
 
@@ -7,11 +7,12 @@ namespace CookBook
     public abstract class Ingredients
     {
         public string Name { get; private set; }
+        public string Amount { get; private set; }
         public DateTime Expiration { get; private set; }
         public IngredientCategory IngredientCategory { get; private set; }
         private static readonly UserIOConsole userIOConsole = new UserIOConsole();
 
-        public Ingredients(string name, DateTime expiration, int ingredientCategory)
+        public Ingredients(string name, string amount, DateTime expiration, int ingredientCategory)
         {
             if (!(String.IsNullOrEmpty(name)))
             {
@@ -21,6 +22,17 @@ namespace CookBook
             {
                 userIOConsole.WriteLine("Jméno ingredience není spravně nastavené.");
             }
+
+            if (!(String.IsNullOrEmpty(name)))
+            {
+                this.Amount = amount;
+            }
+            else
+            {
+                userIOConsole.WriteLine("Množství ingredience není spravně nastavené.");
+            }
+            
+
             this.Expiration = expiration;
 
             var ingredinetCategoryEnumEnumCount = Enum.GetNames(typeof(IngredientCategory)).Length;
@@ -36,13 +48,16 @@ namespace CookBook
         }
         public virtual void GetIngredientsInfo()
         {
-            userIOConsole.WriteLine($"Základní informace o ingredienci: {this.Name} z kategorie {this.IngredientCategory} expiruje {this.Expiration}.");
+            userIOConsole.WriteLine($"Základní informace o ingredienci: {this.Name}, kategorie: {this.IngredientCategory}, množství: {this.Amount}, expiruje: {this.Expiration}.");
         }
 
         public static Ingredients FillGeneralPropertyForIngredientInConsole(int ingredientCategory)
         {
             userIOConsole.WriteLine("Zadejte název suroviny.");
             string name = userIOConsole.GetUserInputString();
+
+            string amount = Ingredients.GetAmountFromUser();
+
             userIOConsole.WriteLine("Nyní postupně vyplníme expiraci zboží.");
             userIOConsole.WriteLine("Nejprve zadejte rok expirace.");
 
@@ -56,7 +71,7 @@ namespace CookBook
 
             userIOConsole.WriteLine("datum je " + expiration);
 
-            Ingredients generalIngredients = new Others(name, expiration, ingredientCategory, "Nenastaveno.");
+            Ingredients generalIngredients = new Others(name, amount, expiration, ingredientCategory, "Nenastaveno.");
 
             return generalIngredients;
         }
@@ -70,7 +85,7 @@ namespace CookBook
             userIOConsole.WriteLine("Zadejte množství tuků v gramech na 100 g produktu.");
             int fatGram = userIOConsole.GetUserInputInteger();
 
-            Meat meat = new Meat(generalIngredient.Name, generalIngredient.Expiration, ingredientCategory, proteinGram, fatGram);
+            Meat meat = new Meat(generalIngredient.Name, generalIngredient.Amount,generalIngredient.Expiration, ingredientCategory, proteinGram, fatGram);
             userIOConsole.WriteLine($"Moje maso {meat.Name} {meat.Expiration} {meat.IngredientCategory} {meat.ProteionGram} {meat.FatGram}");
             //meat.GetIngredientsInfo();
             return meat;
@@ -85,20 +100,20 @@ namespace CookBook
             userIOConsole.WriteLine("Zadejte množství vlákniny v gramech ve 100 g produktu.");
             int fiberGram = userIOConsole.GetUserInputInteger();
 
-            VegetablesAndFruits vegetablesAndFruits = new VegetablesAndFruits(generalIngredient.Name, generalIngredient.Expiration, ingredientCategory, vitamin, fiberGram);
+            VegetablesAndFruits vegetablesAndFruits = new VegetablesAndFruits(generalIngredient.Name, generalIngredient.Amount, generalIngredient.Expiration, ingredientCategory, vitamin, fiberGram);
             //myConsole.WriteLine($"Moje maso {meat.Name} {meat.Expiration} {meat.IngredientCategory} {meat.ProteionGram} {meat.FatGram}");
             //vegetablesAndFruits.GetIngredientsInfo();
             return vegetablesAndFruits;
         }
 
-        public static CookBook.Recipe.Ingredients.Others FillOthersPropertyForIngredientInConsole(int ingredientCategory)
+        public static Others FillOthersPropertyForIngredientInConsole(int ingredientCategory)
         {
             Ingredients generalIngredient = FillGeneralPropertyForIngredientInConsole(ingredientCategory);
 
             userIOConsole.WriteLine("Zadejte popis přísady.");
             string description = userIOConsole.GetUserInputString();
 
-            CookBook.Recipe.Ingredients.Others others = new Others(generalIngredient.Name, generalIngredient.Expiration, ingredientCategory, description);
+            Others others = new Others(generalIngredient.Name, generalIngredient.Amount, generalIngredient.Expiration, ingredientCategory, description);
             return others;
         }
 
@@ -146,6 +161,27 @@ namespace CookBook
                 userIOConsole.WriteLine("Skončili jsme s vyplňováním jedné ingredience.");
             }
             return ingredientsList;
+        }
+
+
+
+        public static string GetAmountFromUser()
+        {
+            userIOConsole.WriteLine("Nyní vyplníme množství suroviny. Vyber, zda budeš zadávat surovinu v gramech nebo v kusech. Pro gramy zadej 1, pro kusy 2.");
+            int amountUnit = userIOConsole.GetUserInputIntegerInGivenRange(1, 2);
+            userIOConsole.WriteLine("Vyplň množství suroviny.");
+            int amount = userIOConsole.GetUserInputInteger();
+            string amountStr = "";
+            switch (amountUnit)
+            {
+                case 1:
+                    amountStr = amount + " g";
+                    break;
+                case 2:
+                    amountStr = amount + " ks";
+                    break;
+            }
+            return amountStr;
         }
     }
 }

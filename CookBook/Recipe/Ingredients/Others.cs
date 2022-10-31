@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CookBook.Recipe.Ingredients;
 
-namespace CookBook.Recipe.Ingredients
+namespace CookBook
 {
-    public class Others : CookBook.Ingredients
+    public class Others : Ingredients
     {
         string Description;
-        public Others(string name, DateTime expiration, int categoryNumber, string description) : base(name, expiration, categoryNumber)
+        public Others(string name, string amount, DateTime expiration, int categoryNumber, string description) : base(name, amount, expiration, categoryNumber)
         {
             
             if (!(String.IsNullOrWhiteSpace(description)))
@@ -25,7 +20,7 @@ namespace CookBook.Recipe.Ingredients
 
         public override void GetIngredientsInfo()
         {
-            Console.WriteLine($"Vypisuju informace pro ingredienci: {this.Name} z kategorie {this.IngredientCategory} expiruje {this.Expiration}. Popis: {this.Description}.");
+            Console.WriteLine($"Vypisuju informace pro ingredienci: {this.Name}, kategorie: {this.IngredientCategory}, množství: {this.Amount}, expiruje: {this.Expiration}. Popis: {this.Description}.");
         }
     }
 }

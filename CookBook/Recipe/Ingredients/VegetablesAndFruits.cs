@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CookBook
 {
@@ -10,7 +6,7 @@ namespace CookBook
     {
         public string Vitamin;
         public int FiberGram;
-        public VegetablesAndFruits(string name, DateTime expiration, int categoryNumber, string vitamin, int fiberGram) : base(name, expiration, categoryNumber)
+        public VegetablesAndFruits(string name, string amount, DateTime expiration, int categoryNumber, string vitamin, int fiberGram) : base(name, amount, expiration, categoryNumber)
         {
             if (!(String.IsNullOrEmpty(vitamin)))
             {
@@ -34,7 +30,7 @@ namespace CookBook
 
         public override void GetIngredientsInfo()
         {
-            Console.WriteLine($"Vypisuju informace pro ingredienci: {this.Name} z kategorie {this.IngredientCategory} expiruje {this.Expiration}. Výživové hodnoty: vitamíny: {this.Vitamin}, vláknina: {this.FiberGram} g.");
+            Console.WriteLine($"Vypisuju informace pro ingredienci: {this.Name}, kategorie: {this.IngredientCategory}, množství: {this.Amount}, expiruje: {this.Expiration}. Výživové hodnoty: vitamíny: {this.Vitamin}, vláknina: {this.FiberGram} g.");
         }
     }
 }

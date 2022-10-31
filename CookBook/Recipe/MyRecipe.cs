@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CookBook
 {
@@ -72,13 +69,7 @@ namespace CookBook
                 item.GetIngredientsInfo();
             }
         }
-
-        public static string GetRecipeNameFromUser()
-        {
-            userIOConsole.WriteLine("Zadej jméno receptu");
-            string recipeName = userIOConsole.GetUserInputString();
-            return recipeName;
-        }
+        
 
         public static int GetRecipeCategoryFromUser()
         {
@@ -90,6 +81,24 @@ namespace CookBook
             }
             int recipeCategory = userIOConsole.GetUserInputIntegerInGivenRange(0, enumRecipeCategoryCount - 1);
             return recipeCategory;
+        }
+
+        public static string GetRecipeNameFromUser()
+        {
+            userIOConsole.WriteLine("Zadej jméno receptu");
+            string name = userIOConsole.GetUserInputString();
+            return name;
+        }
+
+        public static MyRecipe AddNewRecipe()
+        {
+            string recipeName = MyRecipe.GetRecipeNameFromUser();
+            int recipeCategory = MyRecipe.GetRecipeCategoryFromUser();
+            
+            List<Ingredients> ingredientsList = CookBook.Ingredients.GetIngredientsListFromUser();
+            Procedure newProcedure = Procedure.GetProcedureFromUser();
+            MyRecipe myRecipe = new MyRecipe(recipeName, recipeCategory, newProcedure, ingredientsList);
+            return myRecipe;
         }
     }
 }

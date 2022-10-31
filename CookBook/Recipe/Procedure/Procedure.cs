@@ -54,7 +54,7 @@ namespace CookBook
             int enumRecipeCategoryCount = Enum.GetNames(typeof(Difficulty)).Length;
             for (int i = 0; i < enumRecipeCategoryCount; i++)
             {
-                userIOConsole.WriteLine($"{i} je {(RecipeCategory)i}");
+                userIOConsole.WriteLine($"{i} je {(Difficulty)i}");
             }
             int difficulty = userIOConsole.GetUserInputIntegerInGivenRange(0, enumRecipeCategoryCount);
             userIOConsole.WriteLine("Vyplňte postup přípravy.");

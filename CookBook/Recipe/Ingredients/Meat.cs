@@ -12,7 +12,7 @@ namespace CookBook
         public int ProteionGram { get; private set; }
         public int FatGram { get; private set; }
 
-        public Meat(string name, DateTime expiration, int categoryNumber, int proteinGram, int fatGram) : base(name, expiration, categoryNumber)
+        public Meat(string name, string amount, DateTime expiration, int categoryNumber, int proteinGram, int fatGram) : base(name, amount, expiration, categoryNumber)
         {
             if(proteinGram < 0)
             {
@@ -37,7 +37,7 @@ namespace CookBook
         
         public override void GetIngredientsInfo()
         {
-            Console.WriteLine($"Vypisuju informace pro ingredienci: {this.Name} z kategorie {this.IngredientCategory} expiruje {this.Expiration}. Obsažené živiny: tuky: {this.FatGram}g, bílkoviny:{this.ProteionGram} g.");
+            Console.WriteLine($"Vypisuju informace pro ingredienci: {this.Name}, kategorie: {this.IngredientCategory}, množství: {this.Amount}, expiruje: {this.Expiration}. Obsažené živiny: tuky: {this.FatGram}g, bílkoviny:{this.ProteionGram} g.");
         }
     }
 }
