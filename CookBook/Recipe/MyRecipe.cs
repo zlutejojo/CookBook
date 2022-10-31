@@ -9,10 +9,12 @@ namespace CookBook
         public string Name { get; private set; }
         public RecipeCategory RecipeCategory { get; private set; }
         public Procedure Procedure { get; private set; }
-        public List<Ingredients> Ingredients { get; private set; }
+        public List<Ingredients> Ingredients { get; private set; } 
         
         public bool IsRecipeSetCorrectly { get; private set; } = false;
         private static readonly UserIOConsole userIOConsole = new UserIOConsole();
+
+        public static List<MyRecipe> MyRecipes { get; private set; } = new List<MyRecipe>();
 
         //todo zmenit nastaveni IsRecipeSetCorrectly, ted se mi nastavi na true, pokud jedna z podminek je spravne
         public MyRecipe(string name, int recipeCategory, Procedure procedure, List<Ingredients> ingredients)
@@ -64,9 +66,17 @@ namespace CookBook
         {
             userIOConsole.WriteLine($"Můj recept {this.Name} z kategorie {this.RecipeCategory}.");
             this.Procedure.GetProcedureInfo();
-            foreach (var item in this.Ingredients)
+            foreach (var ingredient in this.Ingredients)
             {
-                item.GetIngredientsInfo();
+                ingredient.GetIngredientsInfo();
+            }
+        }
+
+        public static void GetAllRecipeInfo()
+        {
+            foreach (var recipe in MyRecipe.MyRecipes)
+            {
+                recipe.GetRecipeInfo();
             }
         }
         
@@ -98,6 +108,7 @@ namespace CookBook
             List<Ingredients> ingredientsList = CookBook.Ingredients.GetIngredientsListFromUser();
             Procedure newProcedure = Procedure.GetProcedureFromUser();
             MyRecipe myRecipe = new MyRecipe(recipeName, recipeCategory, newProcedure, ingredientsList);
+            MyRecipes.Add(myRecipe);
             return myRecipe;
         }
     }

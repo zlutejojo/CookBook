@@ -9,21 +9,28 @@ namespace CookBook
     {
         static void Main(string[] args)
         {
-
-            Console.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, stiskni x.");
-
-            MyRecipe newRecipe = MyRecipe.AddNewRecipe();
-            newRecipe.GetRecipeInfo();
-            /*
-            string recipeName = MyRecipe.GetRecipeNameFromUser();
-            int recipeCategory = MyRecipe.GetRecipeCategoryFromUser();
-            List<Ingredients> ingredientsList = Ingredients.GetIngredientsListFromUser();
-            Procedure newProcedure = Procedure.GetProcedureFromUser();
-            //MyRecipe myRecipe = new MyRecipe(recipeName, recipeCategory, newProcedure, ingredientsList);
-            //myRecipe.GetRecipeInfo();*/
-            
-            Console.WriteLine("Jsem na konci programu. Loučím se s tebou :)");
-            Console.ReadLine();
+            UserIOConsole userIOConsole = new UserIOConsole();
+            userIOConsole.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
+            while (true)
+            {
+                userIOConsole.WriteLine($"Vyber, co budeš dělat, a zadej číslo daného výběru: 1. Přidávat nový recept, 2. Editovat recept, 3. Mazat recept");
+                int choosedAction = userIOConsole.GetUserInputIntegerInGivenRange(1,3);
+                switch (choosedAction)
+                {
+                    case 1:
+                        MyRecipe.AddNewRecipe();
+                        MyRecipe.GetAllRecipeInfo();
+                        Console.WriteLine("Skončili jsme s vyplňováním jednoho receptu. Stiskni enter pro pokračování.");
+                        Console.ReadLine();
+                        break;
+                    case 2:
+                        userIOConsole.WriteLine("Ještě nic neumím, zkus to později.");
+                        break;
+                    case 3:
+                        userIOConsole.WriteLine("Ještě nic neumím, zkus to později.");
+                        break;
+                }
+            }
         }
     }
 }

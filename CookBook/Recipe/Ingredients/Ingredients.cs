@@ -157,7 +157,6 @@ namespace CookBook
                         //newOthers.GetIngredientsInfo();
                         break;
                 }
-                //TODO vyresit proc se mi vypisuje nekde tady info o ingrediencich
                 userIOConsole.WriteLine("Skončili jsme s vyplňováním jedné ingredience.");
             }
             return ingredientsList;
