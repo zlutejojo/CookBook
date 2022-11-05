@@ -10,6 +10,7 @@ namespace CookBook
     {
         Meat,
         VegetablesAndFruits,
+        MilkProducts,
         Others
     }
 }

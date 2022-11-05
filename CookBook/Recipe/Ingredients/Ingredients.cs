@@ -86,9 +86,26 @@ namespace CookBook
             int fatGram = userIOConsole.GetUserInputInteger();
 
             Meat meat = new Meat(generalIngredient.Name, generalIngredient.Amount,generalIngredient.Expiration, ingredientCategory, proteinGram, fatGram);
-            userIOConsole.WriteLine($"Moje maso {meat.Name} {meat.Expiration} {meat.IngredientCategory} {meat.ProteionGram} {meat.FatGram}");
+            userIOConsole.WriteLine($"Moje maso {meat.Name} {meat.Expiration} {meat.IngredientCategory} {meat.ProteionGram} {meat.FatGram}.");
             //meat.GetIngredientsInfo();
             return meat;
+        }
+
+        public static MilkProduct FillMilkProductPropertyForIngredientInConsole(int ingredientCategory)
+        {
+            Ingredients generalIngredient = FillGeneralPropertyForIngredientInConsole(ingredientCategory);
+
+            userIOConsole.WriteLine("Zadejte množství bílkovin v gramech na 100 g produktu.");
+            int proteinGram = userIOConsole.GetUserInputInteger();
+            userIOConsole.WriteLine("Zadejte množství tuků v gramech na 100 g produktu.");
+            int fatGram = userIOConsole.GetUserInputInteger();
+            userIOConsole.WriteLine("Zadejte množství cukru v gramech na 100 g produktu.");
+            int sugarGram = userIOConsole.GetUserInputInteger();
+
+            MilkProduct milkProduct = new MilkProduct(generalIngredient.Name, generalIngredient.Amount, generalIngredient.Expiration, ingredientCategory, proteinGram, fatGram, sugarGram);
+            userIOConsole.WriteLine($"Můj mléčný výrobek {milkProduct.Name} {milkProduct.Expiration} {milkProduct.IngredientCategory} {milkProduct.ProteionGram} {milkProduct.FatGram} {milkProduct.SugarGram}.");
+            milkProduct.GetIngredientsInfo();
+            return milkProduct;
         }
 
         public static VegetablesAndFruits FillVegetablesAndFruitsPropertyForIngredientInConsole(int ingredientCategory)
@@ -145,13 +162,19 @@ namespace CookBook
                         //newMeat.GetIngredientsInfo();
                         break;
                     case 1:
-                        userIOConsole.WriteLine("kategorie 1 zelenina");
+                        userIOConsole.WriteLine($"kategorie {ingredientCategory} zelenina");
                         VegetablesAndFruits newVegetablesAndFruits = Ingredients.FillVegetablesAndFruitsPropertyForIngredientInConsole(ingredientCategory);
                         ingredientsList.Add(newVegetablesAndFruits);
                         //newVegetablesAndFruits.GetIngredientsInfo();
                         break;
                     case 2:
-                        userIOConsole.WriteLine("kategorie 2 ostatni");
+                        userIOConsole.WriteLine($"kategorie {ingredientCategory} mlecny produkt");
+                        MilkProduct milkProduct = Ingredients.FillMilkProductPropertyForIngredientInConsole(ingredientCategory);
+                        ingredientsList.Add(milkProduct);
+                        //milkProduct.GetIngredientsInfo();
+                        break;
+                    case 3:
+                        userIOConsole.WriteLine($"kategorie {ingredientCategory} ostatni");
                         Others newOthers = Ingredients.FillOthersPropertyForIngredientInConsole(ingredientCategory);
                         ingredientsList.Add(newOthers);
                         //newOthers.GetIngredientsInfo();
@@ -166,8 +189,8 @@ namespace CookBook
 
         public static string GetAmountFromUser()
         {
-            userIOConsole.WriteLine("Nyní vyplníme množství suroviny. Vyber, zda budeš zadávat surovinu v gramech nebo v kusech. Pro gramy zadej 1, pro kusy 2.");
-            int amountUnit = userIOConsole.GetUserInputIntegerInGivenRange(1, 2);
+            userIOConsole.WriteLine("Nyní vyplníme množství suroviny. Vyber, zda budeš zadávat surovinu v gramech, mililitrech nebo v kusech. Pro gramy zadej 1, pro mililitry 2, pro kusy 3.");
+            int amountUnit = userIOConsole.GetUserInputIntegerInGivenRange(1, 3);
             userIOConsole.WriteLine("Vyplň množství suroviny.");
             int amount = userIOConsole.GetUserInputInteger();
             string amountStr = "";
@@ -177,6 +200,9 @@ namespace CookBook
                     amountStr = amount + " g";
                     break;
                 case 2:
+                    amountStr = amount + " ml";
+                    break;
+                case 3:
                     amountStr = amount + " ks";
                     break;
             }
