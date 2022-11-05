@@ -17,6 +17,7 @@ namespace CookBook
             VegetablesAndFruits brambory = new VegetablesAndFruits("brambory", "4 ks", new DateTime(2023, 3, 31), 1, "hořčík, draslík, vitamín A, B a C", 2);
             kureSeznamIngredienci.Add(brambory);
             MyRecipe kure = new MyRecipe("Kuře", 0, kurePriprava,kureSeznamIngredienci);
+            MyRecipe.MyRecipes.Add(kure);
 
             //recept pizza
             Procedure pizzaPriprava = new Procedure(45, 0, "Na listové těsto naskládej hermelín a potři brusinkovým džemem.");
@@ -28,6 +29,7 @@ namespace CookBook
             Others brusinkovyDzem = new Others("brusinkový džem", "1 ks", new DateTime(2023, 6, 30),3,"kupovaný džem z obchodu, pozor obsahuje hodně sacharidů cca 45 g");
             pizzaSeznamIngredienci.Add(brusinkovyDzem);
             MyRecipe pizza = new MyRecipe("Hermelínová pizza", 0, pizzaPriprava, pizzaSeznamIngredienci);
+            MyRecipe.MyRecipes.Add(pizza);
 
             //recept ovesna kase
             Procedure ovesnaKasePriprava = new Procedure(15, 0, "Ovesné vločky zalij vařící vodou, zakryj na 15 minut a přidej nakrájené jablko.");
@@ -37,6 +39,8 @@ namespace CookBook
             VegetablesAndFruits jablko = new VegetablesAndFruits("jablko", "2 ks", new DateTime(2023, 12, 31), 1, "vitaminy B, C, E", 3);
             ovesnáKašeSeznamIngredienci.Add(jablko);
             MyRecipe ovesnaKase = new MyRecipe("Ovesná kaše", 0, ovesnaKasePriprava, ovesnáKašeSeznamIngredienci);
+            MyRecipe.MyRecipes.Add(ovesnaKase);
+
 
 
 
@@ -44,8 +48,8 @@ namespace CookBook
             userIOConsole.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
             while (true)
             {
-                userIOConsole.WriteLine($"Vyber, co budeš dělat, a zadej číslo daného výběru: 1. Přidávat nový recept, 2. Editovat recept, 3. Mazat recept");
-                int choosedAction = userIOConsole.GetUserInputIntegerInGivenRange(1,3);
+                userIOConsole.WriteLine($"Vyber, co budeš dělat, a zadej číslo daného výběru: 1. Přidávat nový recept, 2. Editovat recept, 3. Mazat recept, 4. Vypsat informace o receptu");
+                int choosedAction = userIOConsole.GetUserInputIntegerInGivenRange(1,4);
                 switch (choosedAction)
                 {
                     case 1:
@@ -60,8 +64,17 @@ namespace CookBook
                     case 3:
                         userIOConsole.WriteLine("Ještě nic neumím, zkus to později.");
                         break;
+                    case 4:
+                        userIOConsole.WriteLine("jsem ve 4.");
+
+                        MyRecipe.GetSpecificRecipeInfo();
+                        break;
                 }
             }
+
+
+
+
         }
     }
 }

@@ -62,6 +62,7 @@ namespace CookBook
             }
         }
 
+        //methods for getting information about recipes
         public void GetRecipeInfo()
         {
             userIOConsole.WriteLine($"Můj recept {this.Name} z kategorie {this.RecipeCategory}.");
@@ -79,8 +80,21 @@ namespace CookBook
                 recipe.GetRecipeInfo();
             }
         }
-        
 
+        public static void GetSpecificRecipeInfo()
+        {
+            int recipesCount = MyRecipe.MyRecipes.Count;
+            userIOConsole.WriteLine("Vyber podle této tabulky číslo receptu, který chceš zobrazit:");
+            for (int i = 0; i < recipesCount; i++)
+            {
+                userIOConsole.WriteLine($"{i} pro recept {MyRecipe.MyRecipes[i].Name}.");
+            }
+
+            int indexOfRecipe = userIOConsole.GetUserInputIntegerInGivenRange(0, recipesCount);
+            MyRecipe.MyRecipes[indexOfRecipe].GetRecipeInfo();
+        }
+
+        // methods for getting user inputs
         public static int GetRecipeCategoryFromUser()
         {
             int enumRecipeCategoryCount = Enum.GetNames(typeof(RecipeCategory)).Length;
