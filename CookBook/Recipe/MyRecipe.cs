@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace CookBook
@@ -125,5 +126,46 @@ namespace CookBook
             MyRecipes.Add(myRecipe);
             return myRecipe;
         }
+
+        //TODO da se pouzit neco jako StringComparer.CurrentCultureIgnoreCase
+        public static void findRecipeByPartOfName(string recipeName)
+        {
+            userIOConsole.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
+            var results = MyRecipe.MyRecipes.Where(r => r.Name.ToLower().Contains(recipeName.ToLower()));
+            foreach (var recipe in results)
+            {
+                recipe.GetRecipeInfo();
+            }
+        }
+
+        public static void findRecipeWithGivenIngredient(string ingredientName)
+        {
+            userIOConsole.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
+            foreach (MyRecipe recipe in MyRecipes)
+            {
+                var results = recipe.Ingredients.Where(i => i.Name.ToLower().Contains(ingredientName.ToLower()));
+                if (results.Count() > 0)
+                {
+                    recipe.GetRecipeInfo();
+                }
+            }
+        }
+
+        public void findRecipeWithTheFastestProcedure()
+        {
+
+        }
+
+        public void findRecipeWithTheNearestIngredientExpiration()
+        {
+
+        }
+
+        public void findRecipeWithTheHighestProteionContent()
+        {
+
+        }
+
+
     }
 }
