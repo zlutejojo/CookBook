@@ -84,15 +84,36 @@ namespace CookBook
 
         public static void GetSpecificRecipeInfo()
         {
+            /*
             int recipesCount = MyRecipe.MyRecipes.Count;
             userIOConsole.WriteLine("Vyber podle této tabulky číslo receptu, který chceš zobrazit:");
             for (int i = 0; i < recipesCount; i++)
             {
                 userIOConsole.WriteLine($"{i} pro recept {MyRecipe.MyRecipes[i].Name}.");
-            }
+            }*/
 
-            int indexOfRecipe = userIOConsole.GetUserInputIntegerInGivenRange(0, recipesCount);
+            GetTableWithRecipesOnConsole("Vyber podle této tabulky číslo receptu, který chceš zobrazit:");
+
+            int indexOfRecipe = userIOConsole.GetUserInputIntegerInGivenRange(0, MyRecipes.Count);
             MyRecipe.MyRecipes[indexOfRecipe].GetRecipeInfo();
+        }
+
+        public static void GetTableWithRecipesOnConsole(string text)
+        {
+            int recipesCount = MyRecipe.MyRecipes.Count;
+            userIOConsole.WriteLine(text);
+            for (int i = 0; i < recipesCount; i++)
+            {
+                userIOConsole.WriteLine($"{i} pro recept {MyRecipe.MyRecipes[i].Name}.");
+            }
+        }
+
+        public static void RemoveSpecificRecipe()
+        {
+            GetTableWithRecipesOnConsole("Vyber podle této tabulky číslo receptu, který chceš smazat:");
+            int indexOfRecipe = userIOConsole.GetUserInputIntegerInGivenRange(0, MyRecipes.Count);
+            MyRecipe.MyRecipes.RemoveAt(indexOfRecipe);
+            userIOConsole.WriteLine($"Recept byl smazán.");
         }
 
         // methods for getting user inputs
@@ -166,6 +187,33 @@ namespace CookBook
 
         }
 
+        public static void RunRecipeApp() { 
+
+        while (true)
+            {
+                userIOConsole.WriteLine($"Vyber, co budeš dělat, a zadej číslo daného výběru: 1. Přidávat nový recept, 2. Editovat recept, 3. Mazat recept, 4. Vypsat informace o receptu");
+                int choosedAction = userIOConsole.GetUserInputIntegerInGivenRange(1, 4);
+                switch (choosedAction)
+                {
+                    case 1:
+                        MyRecipe.AddNewRecipe();
+                        MyRecipe.GetAllRecipeInfo();
+                        Console.WriteLine("Skončili jsme s vyplňováním jednoho receptu. Stiskni enter pro pokračování.");
+                        Console.ReadLine();
+                        break;
+                    case 2:
+                        userIOConsole.WriteLine("Ještě nic neumím, zkus to později.");
+                        break;
+                    case 3:
+                        MyRecipe.RemoveSpecificRecipe();
+                        break;
+                    case 4:
+                        userIOConsole.WriteLine("jsem ve 4.");
+                        MyRecipe.GetSpecificRecipeInfo();
+                        break;
+                }
+            }
+        }
 
     }
 }

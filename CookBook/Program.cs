@@ -28,7 +28,7 @@ namespace CookBook
             pizzaSeznamIngredienci.Add(hermelin);
             Others brusinkovyDzem = new Others("brusinkový džem", "1 ks", new DateTime(2023, 6, 30),3, "kupovaný džem z obchodu, pozor obsahuje hodně sacharidů cca 45 g(sacharidy: 50 g)");
             pizzaSeznamIngredienci.Add(brusinkovyDzem);
-            MyRecipe pizza = new MyRecipe("Hermelínová pizza", 0, pizzaPriprava, pizzaSeznamIngredienci);
+            MyRecipe pizza = new MyRecipe("Hermelínová pizza", 3, pizzaPriprava, pizzaSeznamIngredienci);
             MyRecipe.MyRecipes.Add(pizza);
 
             //recept ovesna kase
@@ -44,38 +44,11 @@ namespace CookBook
             //MyRecipe.findRecipeByPartOfName("Kuř");
             //MyRecipe.findRecipeByPartOfName("kuř");
             //MyRecipe.findRecipeByPartOfName("kur");
-            MyRecipe.findRecipeWithGivenIngredient("her");
+            //MyRecipe.findRecipeWithGivenIngredient("her");
 
             UserIOConsole userIOConsole = new UserIOConsole();
             userIOConsole.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
-            while (true)
-            {
-                userIOConsole.WriteLine($"Vyber, co budeš dělat, a zadej číslo daného výběru: 1. Přidávat nový recept, 2. Editovat recept, 3. Mazat recept, 4. Vypsat informace o receptu");
-                int choosedAction = userIOConsole.GetUserInputIntegerInGivenRange(1,4);
-                switch (choosedAction)
-                {
-                    case 1:
-                        MyRecipe.AddNewRecipe();
-                        MyRecipe.GetAllRecipeInfo();
-                        Console.WriteLine("Skončili jsme s vyplňováním jednoho receptu. Stiskni enter pro pokračování.");
-                        Console.ReadLine();
-                        break;
-                    case 2:
-                        userIOConsole.WriteLine("Ještě nic neumím, zkus to později.");
-                        break;
-                    case 3:
-                        userIOConsole.WriteLine("Ještě nic neumím, zkus to později.");
-                        break;
-                    case 4:
-                        userIOConsole.WriteLine("jsem ve 4.");
-                        MyRecipe.GetSpecificRecipeInfo();
-                        break;
-                }
-            }
-
-
-
-
+            MyRecipe.RunRecipeApp();
         }
     }
 }
