@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace CookBook
@@ -84,14 +85,6 @@ namespace CookBook
 
         public static void GetSpecificRecipeInfo()
         {
-            /*
-            int recipesCount = MyRecipe.MyRecipes.Count;
-            userIOConsole.WriteLine("Vyber podle této tabulky číslo receptu, který chceš zobrazit:");
-            for (int i = 0; i < recipesCount; i++)
-            {
-                userIOConsole.WriteLine($"{i} pro recept {MyRecipe.MyRecipes[i].Name}.");
-            }*/
-
             GetTableWithRecipesOnConsole("Vyber podle této tabulky číslo receptu, který chceš zobrazit:");
 
             int indexOfRecipe = userIOConsole.GetUserInputIntegerInGivenRange(0, MyRecipes.Count);
@@ -159,7 +152,7 @@ namespace CookBook
             }
         }
 
-        public static void findRecipeWithGivenIngredient(string ingredientName)
+        public static void FindRecipeWithGivenIngredient(string ingredientName)
         {
             userIOConsole.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
             foreach (MyRecipe recipe in MyRecipes)
@@ -172,9 +165,22 @@ namespace CookBook
             }
         }
 
-        public void findRecipeWithTheFastestProcedure()
+        public static void FindRecipeWithTheFastestProcedure()
         {
+            var orderedRecipesByTime = MyRecipes.OrderBy(r => r.Procedure.PreparationTimeInMinutes);
+            var groupedOrderedRecipes = orderedRecipesByTime.GroupBy(r => r.Procedure.PreparationTimeInMinutes, r => r.Name,(recipePreparationTimes, recipeNames) => new 
+            {
+                GroupedTime = recipePreparationTimes,
+                GroupedName = recipeNames,
+            }).ToList();
 
+            var lowestPreparationTimeGroup = groupedOrderedRecipes[0];
+            userIOConsole.WriteLine($"Nejkratší čas pro přípravu receptu je {lowestPreparationTimeGroup.GroupedTime}.");
+
+            foreach (var itemName in lowestPreparationTimeGroup.GroupedName)
+            {
+                userIOConsole.WriteLine($"Název receptu: {itemName}");
+            }
         }
 
         public void findRecipeWithTheNearestIngredientExpiration()
@@ -182,16 +188,40 @@ namespace CookBook
 
         }
 
-        public void findRecipeWithTheHighestProteionContent()
+        public static void FindRecipeWithTheHighestProteionContent()
         {
+            List<int> proteinSumList = new List<int>();
+            
+            foreach (MyRecipe recipe in MyRecipes)
+            {
+                int proteinSumInRecipe = 0;
 
+                foreach (var ingredient in recipe.Ingredients)
+                {
+                    if (ingredient.GetType() == typeof(Meat))
+                    {
+                        Meat meatIngredient = (Meat)ingredient;
+                        proteinSumInRecipe += meatIngredient.ProteionGram;
+                    }
+
+                    if (ingredient.GetType() == typeof(MilkProduct))
+                    {
+                        MilkProduct milkProductIngredient = (MilkProduct)ingredient;
+                        proteinSumInRecipe += milkProductIngredient.ProteionGram;
+                    }
+                }
+                proteinSumList.Add(proteinSumInRecipe);
+                proteinSumInRecipe = 0;
+            }
+            int index = proteinSumList.IndexOf(proteinSumList.Max());
+            userIOConsole.WriteLine($"Na zadaný dotaz jsem našel tento recept s nejvyšším obsahem proteinů: {MyRecipes[index].Name}.");
         }
 
         public static void RunRecipeApp() { 
 
         while (true)
             {
-                userIOConsole.WriteLine($"Vyber, co budeš dělat, a zadej číslo daného výběru: 1. Přidávat nový recept, 2. Editovat recept, 3. Mazat recept, 4. Vypsat informace o receptu");
+                userIOConsole.WriteLine($"Vyber, co budeš dělat, a zadej číslo daného výběru: 1. Přidávat nový recept, 2. Editovat recept, 3. Mazat recept, 4. Vypsat informace o receptu.");
                 int choosedAction = userIOConsole.GetUserInputIntegerInGivenRange(1, 4);
                 switch (choosedAction)
                 {
@@ -214,6 +244,5 @@ namespace CookBook
                 }
             }
         }
-
     }
 }

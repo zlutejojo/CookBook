@@ -46,7 +46,6 @@
     <Compile Include="Recipe\Ingredients\IngredientCategory.cs" />
     <Compile Include="Recipe\Ingredients\MilkProduct.cs" />
     <Compile Include="Recipe\Ingredients\Others.cs" />
-    <Compile Include="Recipe\Ingredients\Sugar.cs" />
     <Compile Include="Recipe\RecipeCategory.cs" />
     <Compile Include="Recipe\Procedure\Difficulty.cs" />
     <Compile Include="Recipe\Ingredients\Ingredients.cs" />
