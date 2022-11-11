@@ -142,7 +142,7 @@ namespace CookBook
         }
 
         //TODO da se pouzit neco jako StringComparer.CurrentCultureIgnoreCase
-        public static void findRecipeByPartOfName(string recipeName)
+        public static void FindRecipeByPartOfName(string recipeName)
         {
             userIOConsole.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
             var results = MyRecipe.MyRecipes.Where(r => r.Name.ToLower().Contains(recipeName.ToLower()));
@@ -183,9 +183,28 @@ namespace CookBook
             }
         }
 
-        public void findRecipeWithTheNearestIngredientExpiration()
+        public static void FindRecipeWithTheNearestIngredientExpiration()
         {
+            List<DateTime> expirationTheClosestList = new List<DateTime>();
+            List<String> nameIngredientWithTheCloesestExpirationList = new List<String>();
 
+            foreach (MyRecipe recipe in MyRecipes)
+            {
+                DateTime expirationTheClosest = (recipe.Ingredients.OrderBy(e => e.Expiration).First()).Expiration;
+                String nameIngredientWithTheCloesestExpiration = (recipe.Ingredients.OrderBy(e => e.Expiration).First()).Name;
+
+                var items = (recipe.Ingredients.OrderBy(e => e.Expiration));
+                /*foreach(var item in items)
+                {
+                    Console.WriteLine($"prochazim expirace {item.Expiration } {item.Name}");
+                }*/
+
+                expirationTheClosestList.Add(expirationTheClosest);
+                nameIngredientWithTheCloesestExpirationList.Add(nameIngredientWithTheCloesestExpiration);
+            }
+            DateTime theClosestExpiration = expirationTheClosestList.Min();
+            int indexOfRecipeWithTheClosestExpiration = expirationTheClosestList.IndexOf(theClosestExpiration);
+            userIOConsole.WriteLine($"Na zadaný dotaz jsem našel tento recept {MyRecipes[indexOfRecipeWithTheClosestExpiration].Name} obsahující tuto surovinu: {nameIngredientWithTheCloesestExpirationList[indexOfRecipeWithTheClosestExpiration]} s blížící se expirací: {theClosestExpiration}.");
         }
 
         public static void FindRecipeWithTheHighestProteionContent()

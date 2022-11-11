@@ -55,12 +55,13 @@ namespace CookBook
             MyRecipe ovesnaKase = new MyRecipe("Ovesná kaše", 0, ovesnaKasePriprava, ovesnáKašeSeznamIngredienci);
             MyRecipe.MyRecipes.Add(ovesnaKase);
 
-            //MyRecipe.findRecipeByPartOfName("Kuř");
-            //MyRecipe.findRecipeByPartOfName("kuř");
-            //MyRecipe.findRecipeByPartOfName("kur");
+            //MyRecipe.FindRecipeByPartOfName("Kuř");
+            //MyRecipe.FindRecipeByPartOfName("kuř");
+            //MyRecipe.FindRecipeByPartOfName("kur");
             //MyRecipe.FindRecipeWithGivenIngredient("her");
             //MyRecipe.FindRecipeWithTheFastestProcedure();
-            MyRecipe.FindRecipeWithTheHighestProteionContent();
+            //MyRecipe.FindRecipeWithTheHighestProteionContent();
+            MyRecipe.FindRecipeWithTheNearestIngredientExpiration();
 
             UserIOConsole userIOConsole = new UserIOConsole();
             userIOConsole.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
