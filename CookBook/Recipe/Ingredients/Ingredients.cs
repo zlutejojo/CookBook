@@ -55,21 +55,34 @@ namespace CookBook
         {
             userIOConsole.WriteLine("Zadejte název suroviny.");
             string name = userIOConsole.GetUserInputString();
-
+            
             string amount = Ingredients.GetAmountFromUser();
 
-            userIOConsole.WriteLine("Nyní postupně vyplníme expiraci zboží.");
-            userIOConsole.WriteLine("Nejprve zadejte rok expirace.");
+            DateTime expiration = DateTime.Now;
+            bool isExistingDate = false;
+            while (!isExistingDate)
+            {
+                try
+                {
+                    userIOConsole.WriteLine("Nyní postupně vyplníme expiraci zboží.");
+                    userIOConsole.WriteLine("Nejprve zadejte rok expirace.");
 
-            //snad zadna potravina nema trvanlivost delsi nez cca 10 let
-            int year = userIOConsole.GetUserInputIntegerInGivenRange(DateTime.Now.Year, DateTime.Now.Year + 10);
-            userIOConsole.WriteLine("Nyní zadejte měsíc expirace.");
-            int month = userIOConsole.GetUserInputIntegerInGivenRange(1, 12);
-            userIOConsole.WriteLine("Nyní zadejte den expirace.");
-            int day = userIOConsole.GetUserInputIntegerInGivenRange(1, 31);
-            DateTime expiration = new DateTime(year, month, day);
+                    //snad zadna potravina nema trvanlivost delsi nez cca 10 let
+                    int year = userIOConsole.GetUserInputIntegerInGivenRange(DateTime.Now.Year, DateTime.Now.Year + 10);
+                    userIOConsole.WriteLine("Nyní zadejte měsíc expirace.");
+                    int month = userIOConsole.GetUserInputIntegerInGivenRange(1, 12);
+                    userIOConsole.WriteLine("Nyní zadejte den expirace.");
+                    int day = userIOConsole.GetUserInputIntegerInGivenRange(1, 31);
 
-            userIOConsole.WriteLine("datum je " + expiration);
+                    expiration = new DateTime(year, month, day);
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    userIOConsole.WriteLine($"Zadal jsi neexistující datum, pojďme to zkusit znovu.");
+                    continue;
+                }
+                isExistingDate = true;
+            }
 
             Ingredients generalIngredients = new Others(name, amount, expiration, ingredientCategory, "Nenastaveno.");
 

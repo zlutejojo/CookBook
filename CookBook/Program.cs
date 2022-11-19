@@ -61,7 +61,7 @@ namespace CookBook
             //MyRecipe.FindRecipeWithGivenIngredient("her");
             //MyRecipe.FindRecipeWithTheFastestProcedure();
             //MyRecipe.FindRecipeWithTheHighestProteionContent();
-            MyRecipe.FindRecipeWithTheNearestIngredientExpiration();
+            //MyRecipe.FindRecipeWithTheNearestIngredientExpiration();
 
             UserIOConsole userIOConsole = new UserIOConsole();
             userIOConsole.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
