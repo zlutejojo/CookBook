@@ -8,11 +8,11 @@ namespace CookBook
 {
     public class UserIOConsole : IUserIO
     {
-        public override void WriteLine(string text)
+        public void WriteLine(string text)
         {
             Console.WriteLine(text);
         }
-        public override int GetUserInputInteger()
+        public int GetUserInputInteger()
         {
             int number;
             string userInput = this.GetUserInputString();
@@ -24,7 +24,7 @@ namespace CookBook
             return number;
         }
 
-        public override string GetUserInputString()
+        public string GetUserInputString()
         {
             string input = Console.ReadLine().Trim();
             if (this.CheckIfInputIsX(input))
@@ -55,7 +55,7 @@ namespace CookBook
             return numberToCheck;
         }
         //TODO zkusit pouzit readkey
-        public override bool CheckIfUserTerminateApplication()
+        public bool CheckIfUserTerminateApplication()
         {
             if (Console.ReadKey().Key == ConsoleKey.Escape)
             {
@@ -68,6 +68,11 @@ namespace CookBook
         public bool CheckIfInputIsX(string text)
         {
             return text == "X" || text == "x";
+        }
+
+        public void ExitApplication()
+        {
+            System.Environment.Exit(0);
         }
     }
 }

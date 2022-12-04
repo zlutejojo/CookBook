@@ -18,6 +18,7 @@ namespace CookBook
             kureSeznamIngredienci.Add(brambory);
             MyRecipe kure = new MyRecipe("Kuře", 0, kurePriprava,kureSeznamIngredienci);
             MyRecipe.MyRecipes.Add(kure);
+            
 
             //recept pizza hermelin
             Procedure pizzaHermelinPriprava = new Procedure(45, 0, "Na listové těsto naskládej hermelín a potři brusinkovým džemem.");
