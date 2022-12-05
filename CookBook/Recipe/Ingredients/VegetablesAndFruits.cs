@@ -28,9 +28,9 @@ namespace CookBook
             }
         }
 
-        public override void GetIngredientsInfo()
+        public override string GetIngredientsInfo()
         {
-            Console.WriteLine($"Vypisuju informace pro ingredienci: {this.Name}, kategorie: {this.IngredientCategory}, množství: {this.Amount}, expiruje: {this.Expiration}. Výživové hodnoty: vitamíny: {this.Vitamin}, vláknina: {this.FiberGram} g.");
+            return $"Vypisuju informace pro ingredienci: {this.Name}, kategorie: {this.IngredientCategory}, množství: {this.Amount}, expiruje: {this.Expiration}. Výživové hodnoty: vitamíny: {this.Vitamin}, vláknina: {this.FiberGram} g.";
         }
     }
 }

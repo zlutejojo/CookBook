@@ -71,7 +71,9 @@ namespace CookBook
             this.Procedure.GetProcedureInfo();
             foreach (var ingredient in this.Ingredients)
             {
-                ingredient.GetIngredientsInfo();
+                //TODO nahradit string misto vypisu
+                Console.WriteLine(ingredient.GetIngredientsInfo());
+                Console.WriteLine("jsem v metode getrecipeinfo");
             }
         }
 
@@ -134,7 +136,7 @@ namespace CookBook
             string recipeName = MyRecipe.GetRecipeNameFromUser();
             int recipeCategory = MyRecipe.GetRecipeCategoryFromUser();
             
-            List<Ingredients> ingredientsList = CookBook.Ingredients.GetIngredientsListFromUser();
+            List<Ingredients> ingredientsList = CookBook.Ingredients.GetIngredientsListFromUser(new UserIOConsole());
             Procedure newProcedure = Procedure.GetProcedureFromUser();
             MyRecipe myRecipe = new MyRecipe(recipeName, recipeCategory, newProcedure, ingredientsList);
             MyRecipes.Add(myRecipe);

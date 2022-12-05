@@ -45,9 +45,9 @@ namespace CookBook
             }
         }
 
-        public override void GetIngredientsInfo()
+        public override string GetIngredientsInfo()
         {
-            Console.WriteLine($"Vypisuju informace pro ingredienci: {this.Name}, kategorie: {this.IngredientCategory}, množství: {this.Amount}, expiruje: {this.Expiration}. Obsažené živiny: tuky: {this.FatGram}g, bílkoviny:{this.ProteionGram} g, cukry: {this.SugarGram}.");
+            return $"Vypisuju informace pro ingredienci: {this.Name}, kategorie: {this.IngredientCategory}, množství: {this.Amount}, expiruje: {this.Expiration}. Obsažené živiny: tuky: {this.FatGram}g, bílkoviny:{this.ProteionGram} g, cukry: {this.SugarGram}.";
         }
     }
 }
