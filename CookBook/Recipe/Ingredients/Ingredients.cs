@@ -11,6 +11,7 @@ namespace CookBook
         public DateTime Expiration { get; private set; }
         public IngredientCategory IngredientCategory { get; private set; }
 
+        //TODO pridat message k vyjimkam a odstranit vypis na konzoli
         public Ingredients(string name, string amount, DateTime expiration, int ingredientCategory)
         {
             if (!(String.IsNullOrEmpty(name)))
@@ -19,18 +20,22 @@ namespace CookBook
             }
             else
             {
-                Console.WriteLine("Jméno ingredience není spravně nastavené.");
-                throw new NullReferenceException();
+                // zavola se jenom v debug, ne v releasu, bude se vypisovat do output okna ve VS
+                // System.Diagnostics.Debug.WriteLine nebo logger vlastni (v .NET log4net)
+                //throw new NullReferenceException();
+                // proc k ni doslo a co s ni
+                throw new ArgumentNullException("Není zadané jméno ingredience.");
+                
+
             }
 
-            if (!(String.IsNullOrEmpty(name)))
+            if (!(String.IsNullOrEmpty(amount)))
             {
                 this.Amount = amount;
             }
             else
             {
-                Console.WriteLine("Množství ingredience není spravně nastavené.");
-                throw new NullReferenceException();
+                throw new ArgumentNullException("Není zadané množství ingredience.");
             }
             
             this.Expiration = expiration;
@@ -42,9 +47,14 @@ namespace CookBook
             }
             else
             {
-                Console.WriteLine("Kategorie není spravně nastavená.");
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException("Není zadaný správný rozsah kategorie ingredience.");
             }
+            /*
+             * ArgumentException, ArgumentNullException, ArgumentOutOfRangeException()
+             * kdyz mi toto nestaci, tak z exception vytvorit vlastni vyjimku 
+             * NullReferenceException() - toto nepouzivat, to vyhazuje sam net
+             * pouzivat message pro exception vzdy 
+             */
 
         }
         public virtual string GetIngredientsInfo()
@@ -118,7 +128,7 @@ namespace CookBook
 
             MilkProduct milkProduct = new MilkProduct(generalIngredient.Name, generalIngredient.Amount, generalIngredient.Expiration, ingredientCategory, proteinGram, fatGram, sugarGram);
             userIO.WriteLine($"Můj mléčný výrobek {milkProduct.Name} {milkProduct.Expiration} {milkProduct.IngredientCategory} {milkProduct.ProteionGram} {milkProduct.FatGram} {milkProduct.SugarGram}.");
-            userIO.WriteLine(milkProduct.GetIngredientsInfo());
+            //userIO.WriteLine(milkProduct.GetIngredientsInfo());
             return milkProduct;
         }
 

@@ -16,6 +16,7 @@ namespace CookBook
         {
             if (proteinGram < 0)
             {
+                //TODO odstranit vypis a misto nej pridat logovani
                 Console.WriteLine("Nenastavil jsi správně množství bílkovin. Nastavuji hodnotu -1");
                 this.ProteionGram = -1;
             }
