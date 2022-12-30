@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Recipe\Ingredients\IngredientCategory.cs" />
+    <Compile Include="Recipe\Ingredients\IngredientsManager.cs" />
     <Compile Include="Recipe\Ingredients\MilkProduct.cs" />
     <Compile Include="Recipe\Ingredients\Others.cs" />
     <Compile Include="Recipe\RecipeCategory.cs" />
