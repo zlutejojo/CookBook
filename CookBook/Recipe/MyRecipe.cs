@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using CookBook.Recipe.Content;
+   
 
 namespace CookBook
 {
@@ -136,7 +138,7 @@ namespace CookBook
             string recipeName = MyRecipe.GetRecipeNameFromUser();
             int recipeCategory = MyRecipe.GetRecipeCategoryFromUser();
             
-            List<Ingredients> ingredientsList = CookBook.Ingredients.GetIngredientsListFromUser(new UserIOConsole());
+            List<Ingredients> ingredientsList = IngredientsManager.GetIngredientsListFromUser(new UserIOConsole());
             Procedure newProcedure = Procedure.GetProcedureFromUser();
             MyRecipe myRecipe = new MyRecipe(recipeName, recipeCategory, newProcedure, ingredientsList);
             MyRecipes.Add(myRecipe);
