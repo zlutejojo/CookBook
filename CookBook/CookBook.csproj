@@ -48,10 +48,10 @@
     <Compile Include="Recipe\Content\MilkProduct.cs" />
     <Compile Include="Recipe\Content\Others.cs" />
     <Compile Include="Recipe\RecipeCategory.cs" />
-    <Compile Include="Recipe\Procedure\Difficulty.cs" />
+    <Compile Include="Recipe\Work\Difficulty.cs" />
     <Compile Include="Recipe\Content\Ingredients.cs" />
     <Compile Include="Recipe\Content\Meat.cs" />
-    <Compile Include="Recipe\Procedure\Procedure.cs" />
+    <Compile Include="Recipe\Work\Procedure.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recipe\MyRecipe.cs" />

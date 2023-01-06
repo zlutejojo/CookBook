@@ -1,4 +1,6 @@
-﻿using CookBook.Recipe.Content;
+﻿using CookBook.Recipe;
+using CookBook.Recipe.Content;
+using CookBook.Recipe.Work;
 using System;
 using System.Collections.Generic;
 

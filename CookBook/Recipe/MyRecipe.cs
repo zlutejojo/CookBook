@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using CookBook.Recipe.Content;
-   
+using CookBook.Recipe.Work;
 
-namespace CookBook
+
+namespace CookBook.Recipe
 {
     public class MyRecipe
     {
