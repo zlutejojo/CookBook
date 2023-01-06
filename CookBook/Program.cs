@@ -1,7 +1,6 @@
-﻿
+﻿using CookBook.Recipe.Content;
 using System;
 using System.Collections.Generic;
-
 
 namespace CookBook
 {

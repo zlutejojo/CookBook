@@ -1,9 +1,7 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace CookBook
+namespace CookBook.Recipe.Content
 {
     public class Ingredients
     {

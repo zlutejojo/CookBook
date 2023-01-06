@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CookBook
+namespace CookBook.Recipe.Content
 {
     public class VegetablesAndFruits : Ingredients
     {
