@@ -8,7 +8,6 @@ namespace CookBook.Recipe.Work
         public int PreparationTimeInMinutes { get; private set; }
         public Difficulty Difficulty { get; private set; }
         public string Description { get; private set; }
-        private static readonly UserIOConsole userIOConsole = new UserIOConsole();
 
         public Procedure(int preparationTimeInMinutes, int difficulty, string description)
         {
@@ -28,7 +27,7 @@ namespace CookBook.Recipe.Work
             }
             else
             {
-                userIOConsole.WriteLine("Stupeň obtížnosti není spravně nastavený.");
+                Console.WriteLine("Stupeň obtížnosti není spravně nastavený.");
             }
 
             if (!(String.IsNullOrEmpty(description)))
@@ -37,22 +36,22 @@ namespace CookBook.Recipe.Work
             }
             else
             {
-                userIOConsole.WriteLine("Popis procedury není spravně nastavený.");
+                Console.WriteLine("Popis procedury není spravně nastavený.");
             }
         }
-        public static Procedure GetProcedureFromUser()
+        public static Procedure GetProcedureFromUser(IUserIO userIO)
         {
-            userIOConsole.WriteLine("Vyplňte celkovou délku přípravy pokrmu v minutách.");
-            int preparationTimeInMinutes = userIOConsole.GetUserInputInteger();
-            userIOConsole.WriteLine("Vyplňte obtížnost receptu podle následující tabulky.");
+            userIO.WriteLine("Vyplňte celkovou délku přípravy pokrmu v minutách.");
+            int preparationTimeInMinutes = userIO.GetUserInputInteger();
+            userIO.WriteLine("Vyplňte obtížnost receptu podle následující tabulky.");
             int enumRecipeCategoryCount = Enum.GetNames(typeof(Difficulty)).Length;
             for (int i = 0; i < enumRecipeCategoryCount; i++)
             {
-                userIOConsole.WriteLine($"{i} je {(Difficulty)i}");
+                userIO.WriteLine($"{i} je {(Difficulty)i}");
             }
-            int difficulty = userIOConsole.GetUserInputIntegerInGivenRange(0, enumRecipeCategoryCount);
-            userIOConsole.WriteLine("Vyplňte postup přípravy.");
-            string description = userIOConsole.GetUserInputString();
+            int difficulty = userIO.GetUserInputIntegerInGivenRange(0, enumRecipeCategoryCount);
+            userIO.WriteLine("Vyplňte postup přípravy.");
+            string description = userIO.GetUserInputString();
 
             Procedure newProcedure = new Procedure(preparationTimeInMinutes, difficulty, description);
             return newProcedure;

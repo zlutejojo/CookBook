@@ -136,8 +136,8 @@ namespace CookBook.Recipe
             string recipeName = MyRecipe.GetRecipeNameFromUser(userIO);
             int recipeCategory = MyRecipe.GetRecipeCategoryFromUser(userIO);
             
-            List<Ingredients> ingredientsList = IngredientsManager.GetIngredientsListFromUser(new UserIOConsole());
-            Procedure newProcedure = Procedure.GetProcedureFromUser();
+            List<Ingredients> ingredientsList = IngredientsManager.GetIngredientsListFromUser(userIO);
+            Procedure newProcedure = Procedure.GetProcedureFromUser(userIO);
             MyRecipe myRecipe = new MyRecipe(recipeName, recipeCategory, newProcedure, ingredientsList);
             MyRecipes.Add(myRecipe);
             return myRecipe;
