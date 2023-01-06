@@ -1,6 +1,8 @@
-﻿using CookBook.UserIO;
+﻿using CookBook.Recipe.Work;
+using CookBook.UserIO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CookBook.Recipe.Content
 {
@@ -194,5 +196,207 @@ namespace CookBook.Recipe.Content
             return ingredientsList;
         }
 
+        //methods for getting information about recipes
+        public static void GetRecipeInfo(IUserIO userIO, MyRecipe recipe)
+        {
+            userIO.WriteLine($"Můj recept {recipe.Name} z kategorie {recipe.RecipeCategory}.");
+            recipe.Procedure.GetProcedureInfo();
+            foreach (var ingredient in recipe.Ingredients)
+            {
+                //TODO nahradit string misto vypisu
+                Console.WriteLine(ingredient.GetIngredientsInfo());
+                Console.WriteLine("jsem v metode getrecipeinfo");
+            }
+        }
+
+        public static void GetAllRecipeInfo(IUserIO userIO)
+        {
+            foreach (var recipe in MyRecipe.MyRecipes)
+            {
+                IngredientsManager.GetRecipeInfo(userIO, recipe);
+            }
+        }
+
+        public static void GetSpecificRecipeInfo(IUserIO userIO)
+        {
+            GetTableWithRecipesOnConsole("Vyber podle této tabulky číslo receptu, který chceš zobrazit:", userIO);
+            int indexOfRecipe = userIO.GetUserInputIntegerInGivenRange(0, MyRecipe.MyRecipes.Count);
+            MyRecipe specificRecipe = MyRecipe.MyRecipes[indexOfRecipe];
+            GetRecipeInfo(userIO, specificRecipe);
+        }
+
+        public static void GetTableWithRecipesOnConsole(string text, IUserIO userIO)
+        {
+            int recipesCount = MyRecipe.MyRecipes.Count;
+            userIO.WriteLine(text);
+            for (int i = 0; i < recipesCount; i++)
+            {
+                userIO.WriteLine($"{i} pro recept {MyRecipe.MyRecipes[i].Name}.");
+            }
+        }
+
+        public static void RemoveSpecificRecipe(IUserIO userIO)
+        {
+            GetTableWithRecipesOnConsole("Vyber podle této tabulky číslo receptu, který chceš smazat:", userIO);
+            int indexOfRecipe = userIO.GetUserInputIntegerInGivenRange(0, MyRecipe.MyRecipes.Count);
+            MyRecipe.MyRecipes.RemoveAt(indexOfRecipe);
+            userIO.WriteLine($"Recept byl smazán.");
+        }
+
+        // methods for getting user inputs
+        public static int GetRecipeCategoryFromUser(IUserIO userIO)
+        {
+            int enumRecipeCategoryCount = Enum.GetNames(typeof(RecipeCategory)).Length;
+            userIO.WriteLine("Zadej číslo kategorie receptu podle této tabulky:");
+            for (int i = 0; i < enumRecipeCategoryCount; i++)
+            {
+                userIO.WriteLine($"{i} je {(RecipeCategory)i}");
+            }
+            int recipeCategory = userIO.GetUserInputIntegerInGivenRange(0, enumRecipeCategoryCount - 1);
+            return recipeCategory;
+        }
+
+        public static string GetRecipeNameFromUser(IUserIO userIO)
+        {
+            userIO.WriteLine("Zadej jméno receptu");
+            string name = userIO.GetUserInputString();
+            return name;
+        }
+
+        public static MyRecipe AddNewRecipe(IUserIO userIO)
+        {
+            string recipeName = IngredientsManager.GetRecipeNameFromUser(userIO);
+            int recipeCategory = IngredientsManager.GetRecipeCategoryFromUser(userIO);
+
+            List<Ingredients> ingredientsList = IngredientsManager.GetIngredientsListFromUser(userIO);
+            Procedure newProcedure = Procedure.GetProcedureFromUser(userIO);
+            MyRecipe myRecipe = new MyRecipe(recipeName, recipeCategory, newProcedure, ingredientsList);
+            MyRecipe.MyRecipes.Add(myRecipe);
+            return myRecipe;
+        }
+
+        //TODO da se pouzit neco jako StringComparer.CurrentCultureIgnoreCase
+        public static void FindRecipeByPartOfName(string recipeName, IUserIO userIO)
+        {
+            userIO.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
+            var results = MyRecipe.MyRecipes.Where(r => r.Name.ToLower().Contains(recipeName.ToLower()));
+            foreach (var recipe in results)
+            {
+                IngredientsManager.GetRecipeInfo(userIO, recipe);
+            }
+        }
+
+        public static void FindRecipeWithGivenIngredient(string ingredientName, IUserIO userIO)
+        {
+            userIO.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
+            foreach (MyRecipe recipe in MyRecipe.MyRecipes)
+            {
+                var results = recipe.Ingredients.Where(i => i.Name.ToLower().Contains(ingredientName.ToLower()));
+                if (results.Count() > 0)
+                {
+                    IngredientsManager.GetRecipeInfo(userIO, recipe);
+                }
+            }
+        }
+
+        public static void FindRecipeWithTheFastestProcedure(IUserIO userIO)
+        {
+            var orderedRecipesByTime = MyRecipe.MyRecipes.OrderBy(r => r.Procedure.PreparationTimeInMinutes);
+            var groupedOrderedRecipes = orderedRecipesByTime.GroupBy(r => r.Procedure.PreparationTimeInMinutes, r => r.Name, (recipePreparationTimes, recipeNames) => new
+            {
+                GroupedTime = recipePreparationTimes,
+                GroupedName = recipeNames,
+            }).ToList();
+
+            var lowestPreparationTimeGroup = groupedOrderedRecipes[0];
+            userIO.WriteLine($"Nejkratší čas pro přípravu receptu je {lowestPreparationTimeGroup.GroupedTime}.");
+
+            foreach (var itemName in lowestPreparationTimeGroup.GroupedName)
+            {
+                userIO.WriteLine($"Název receptu: {itemName}");
+            }
+        }
+
+        public static void FindRecipeWithTheNearestIngredientExpiration(IUserIO userIO)
+        {
+            List<DateTime> expirationTheClosestList = new List<DateTime>();
+            List<String> nameIngredientWithTheCloesestExpirationList = new List<String>();
+
+            foreach (MyRecipe recipe in MyRecipe.MyRecipes)
+            {
+                DateTime expirationTheClosest = (recipe.Ingredients.OrderBy(e => e.Expiration).First()).Expiration;
+                String nameIngredientWithTheCloesestExpiration = (recipe.Ingredients.OrderBy(e => e.Expiration).First()).Name;
+
+                var items = (recipe.Ingredients.OrderBy(e => e.Expiration));
+                /*foreach(var item in items)
+                {
+                    Console.WriteLine($"prochazim expirace {item.Expiration } {item.Name}");
+                }*/
+
+                expirationTheClosestList.Add(expirationTheClosest);
+                nameIngredientWithTheCloesestExpirationList.Add(nameIngredientWithTheCloesestExpiration);
+            }
+            DateTime theClosestExpiration = expirationTheClosestList.Min();
+            int indexOfRecipeWithTheClosestExpiration = expirationTheClosestList.IndexOf(theClosestExpiration);
+            userIO.WriteLine($"Na zadaný dotaz jsem našel tento recept {MyRecipe.MyRecipes[indexOfRecipeWithTheClosestExpiration].Name} obsahující tuto surovinu: {nameIngredientWithTheCloesestExpirationList[indexOfRecipeWithTheClosestExpiration]} s blížící se expirací: {theClosestExpiration}.");
+        }
+
+        public static void FindRecipeWithTheHighestProteionContent(IUserIO userIO)
+        {
+            List<int> proteinSumList = new List<int>();
+
+            foreach (MyRecipe recipe in MyRecipe.MyRecipes)
+            {
+                int proteinSumInRecipe = 0;
+
+                foreach (var ingredient in recipe.Ingredients)
+                {
+                    if (ingredient.GetType() == typeof(Meat))
+                    {
+                        Meat meatIngredient = (Meat)ingredient;
+                        proteinSumInRecipe += meatIngredient.ProteionGram;
+                    }
+
+                    if (ingredient.GetType() == typeof(MilkProduct))
+                    {
+                        MilkProduct milkProductIngredient = (MilkProduct)ingredient;
+                        proteinSumInRecipe += milkProductIngredient.ProteionGram;
+                    }
+                }
+                proteinSumList.Add(proteinSumInRecipe);
+                proteinSumInRecipe = 0;
+            }
+            int index = proteinSumList.IndexOf(proteinSumList.Max());
+            userIO.WriteLine($"Na zadaný dotaz jsem našel tento recept s nejvyšším obsahem proteinů: {MyRecipe.MyRecipes[index].Name}.");
+        }
+
+        public static void RunRecipeApp(IUserIO userIO)
+        {
+
+            while (true)
+            {
+                userIO.WriteLine($"Vyber, co budeš dělat, a zadej číslo daného výběru: 1. Přidávat nový recept, 2. Editovat recept, 3. Mazat recept, 4. Vypsat informace o receptu.");
+                int choosedAction = userIO.GetUserInputIntegerInGivenRange(1, 4);
+                switch (choosedAction)
+                {
+                    case 1:
+                        IngredientsManager.AddNewRecipe(userIO);
+                        IngredientsManager.GetAllRecipeInfo(userIO);
+                        Console.WriteLine("Skončili jsme s vyplňováním jednoho receptu. Stiskni enter pro pokračování.");
+                        Console.ReadLine();
+                        break;
+                    case 2:
+                        userIO.WriteLine("Ještě nic neumím, zkus to později.");
+                        break;
+                    case 3:
+                        IngredientsManager.RemoveSpecificRecipe(userIO);
+                        break;
+                    case 4:
+                        userIO.WriteLine("jsem ve 4.");
+                        IngredientsManager.GetSpecificRecipeInfo(userIO);
+                        break;
+                }
+            }
+        }
     }
 }

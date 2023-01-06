@@ -71,7 +71,7 @@ namespace CookBook
 
             UserIOConsole userIOConsole = new UserIOConsole();
             userIOConsole.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
-            MyRecipe.RunRecipeApp(userIOConsole);
+            IngredientsManager.RunRecipeApp(userIOConsole);
         }
     }
 }
