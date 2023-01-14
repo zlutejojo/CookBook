@@ -5,6 +5,7 @@ using CookBook.UserIO;
 using System;
 using System.Collections.Generic;
 
+
 namespace CookBook
 {
     internal class Program
@@ -69,9 +70,10 @@ namespace CookBook
             Meat testIngredience = new Meat("test", "10g", new DateTime(2022, 11, 17), 0, 20, 4);
 
 
-            UserIOConsole userIOConsole = new UserIOConsole();
-            userIOConsole.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
-            IngredientsManager.RunRecipeApp(userIOConsole);
+            //UserIOConsole userIOConsole = new UserIOConsole();
+            Console.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
+            IngredientsManager ingredientsManager = new IngredientsManager("console");
+            ingredientsManager.RunRecipeApp();
         }
     }
 }

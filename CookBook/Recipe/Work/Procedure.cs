@@ -39,23 +39,7 @@ namespace CookBook.Recipe.Work
                 Console.WriteLine("Popis procedury není spravně nastavený.");
             }
         }
-        public static Procedure GetProcedureFromUser(IUserIO userIO)
-        {
-            userIO.WriteLine("Vyplňte celkovou délku přípravy pokrmu v minutách.");
-            int preparationTimeInMinutes = userIO.GetUserInputInteger();
-            userIO.WriteLine("Vyplňte obtížnost receptu podle následující tabulky.");
-            int enumRecipeCategoryCount = Enum.GetNames(typeof(Difficulty)).Length;
-            for (int i = 0; i < enumRecipeCategoryCount; i++)
-            {
-                userIO.WriteLine($"{i} je {(Difficulty)i}");
-            }
-            int difficulty = userIO.GetUserInputIntegerInGivenRange(0, enumRecipeCategoryCount);
-            userIO.WriteLine("Vyplňte postup přípravy.");
-            string description = userIO.GetUserInputString();
-
-            Procedure newProcedure = new Procedure(preparationTimeInMinutes, difficulty, description);
-            return newProcedure;
-        }
+        
         public void GetProcedureInfo()
         {
             Console.WriteLine($"Vypisuju informace pro postup přípravy receptu: délka: {this.PreparationTimeInMinutes}, obtížnost: {(Difficulty)this.Difficulty}, postup: {this.Description}.");

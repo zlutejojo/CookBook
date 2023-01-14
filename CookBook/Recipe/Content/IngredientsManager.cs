@@ -8,23 +8,48 @@ namespace CookBook.Recipe.Content
 {
     public class IngredientsManager
     {
-
-        public IngredientsManager()
+        public IUserIO UserIO { get; private set; }
+        public IngredientsManager(string typeOfUserIO)
         {
-
+            if (typeOfUserIO == "console")
+            {
+                this.UserIO = new UserIOConsole();
+            } else throw new ArgumentException("Zadaný typ User IO neexistuje. Nemáte na mysli: \"console\"?");
         }
 
-        //public int i;
-        //public List<Ingredients> ingredientsLst;
-
-        
-        
-        public Others FillGeneralPropertyForIngredientInConsole(int ingredientCategory, IUserIO userIO)
+        public void RunRecipeApp()
         {
-            userIO.WriteLine("Zadejte název suroviny.");
-            string name = userIO.GetUserInputString();
+            while (true)
+            {
+                UserIO.WriteLine($"Vyber, co budeš dělat, a zadej číslo daného výběru: 1. Přidávat nový recept, 2. Editovat recept, 3. Mazat recept, 4. Vypsat informace o receptu.");
+                int choosedAction = UserIO.GetUserInputIntegerInGivenRange(1, 4);
+                switch (choosedAction)
+                {
+                    case 1:
+                        AddNewRecipe();
+                        Console.WriteLine("Skončili jsme s vyplňováním jednoho receptu. Stiskni enter pro pokračování.");
+                        Console.ReadLine();
+                        break;
+                    case 2:
+                        UserIO.WriteLine("Ještě nic neumím, zkus to později.");
+                        break;
+                    case 3:
+                        RemoveSpecificRecipe();
+                        break;
+                    case 4:
+                        GetSpecificRecipeInfo();
+                        break;
+                }
+            }
+        }
 
-            string amount = GetAmountFromUser(userIO);
+
+        public Others FillGeneralPropertyForIngredientInConsole(int ingredientCategory)
+        {
+            UserIO.WriteLine("Zadejte název suroviny.");
+            string name = UserIO.GetUserInputString();
+
+            string amount = GetAmountFromUser();
 
             DateTime expiration = DateTime.Now;
             bool isExistingDate = false;
@@ -32,21 +57,21 @@ namespace CookBook.Recipe.Content
             {
                 try
                 {
-                    userIO.WriteLine("Nyní postupně vyplníme expiraci zboží.");
-                    userIO.WriteLine("Nejprve zadejte rok expirace.");
+                    UserIO.WriteLine("Nyní postupně vyplníme expiraci zboží.");
+                    UserIO.WriteLine("Nejprve zadejte rok expirace.");
 
                     //snad zadna potravina nema trvanlivost delsi nez cca 10 let
-                    int year = userIO.GetUserInputIntegerInGivenRange(DateTime.Now.Year, DateTime.Now.Year + 10);
-                    userIO.WriteLine("Nyní zadejte měsíc expirace.");
-                    int month = userIO.GetUserInputIntegerInGivenRange(1, 12);
-                    userIO.WriteLine("Nyní zadejte den expirace.");
-                    int day = userIO.GetUserInputIntegerInGivenRange(1, 31);
+                    int year = UserIO.GetUserInputIntegerInGivenRange(DateTime.Now.Year, DateTime.Now.Year + 10);
+                    UserIO.WriteLine("Nyní zadejte měsíc expirace.");
+                    int month = UserIO.GetUserInputIntegerInGivenRange(1, 12);
+                    UserIO.WriteLine("Nyní zadejte den expirace.");
+                    int day = UserIO.GetUserInputIntegerInGivenRange(1, 31);
 
                     expiration = new DateTime(year, month, day);
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
-                    userIO.WriteLine($"Zadal jsi neexistující datum, pojďme to zkusit znovu.");
+                    UserIO.WriteLine($"Zadal jsi neexistující datum, pojďme to zkusit znovu.");
                     continue;
                 }
                 isExistingDate = true;
@@ -56,49 +81,46 @@ namespace CookBook.Recipe.Content
 
             return generalIngredients;
         }
-
-        public Meat FillMeatPropertyForIngredientInConsole(int ingredientCategory, IUserIO userIO)
+        public Meat FillMeatPropertyForIngredientInConsole(int ingredientCategory)
         {
-            Others generalIngredient = FillGeneralPropertyForIngredientInConsole(ingredientCategory, userIO);
+            Others generalIngredient = FillGeneralPropertyForIngredientInConsole(ingredientCategory);
 
-            userIO.WriteLine("Zadejte množství bílkovin v gramech na 100 g produktu.");
-            int proteinGram = userIO.GetUserInputInteger();
-            userIO.WriteLine("Zadejte množství tuků v gramech na 100 g produktu.");
-            int fatGram = userIO.GetUserInputInteger();
+            UserIO.WriteLine("Zadejte množství bílkovin v gramech na 100 g produktu.");
+            int proteinGram = UserIO.GetUserInputInteger();
+            UserIO.WriteLine("Zadejte množství tuků v gramech na 100 g produktu.");
+            int fatGram = UserIO.GetUserInputInteger();
 
             Meat meat = new Meat(generalIngredient.Name, generalIngredient.Amount, generalIngredient.Expiration, ingredientCategory, proteinGram, fatGram);
-            userIO.WriteLine($"Moje maso {meat.Name} {meat.Expiration} {meat.IngredientCategory} {meat.ProteionGram} {meat.FatGram}.");
+            UserIO.WriteLine($"Moje maso {meat.Name} {meat.Expiration} {meat.IngredientCategory} {meat.ProteionGram} {meat.FatGram}.");
             //meat.GetIngredientsInfo();
             return meat;
         }
 
-
-
-        public MilkProduct FillMilkProductPropertyForIngredientInConsole(int ingredientCategory, IUserIO userIO)
+        public MilkProduct FillMilkProductPropertyForIngredientInConsole(int ingredientCategory)
         {
-            Others generalIngredient = FillGeneralPropertyForIngredientInConsole(ingredientCategory, userIO);
+            Others generalIngredient = FillGeneralPropertyForIngredientInConsole(ingredientCategory);
 
-            userIO.WriteLine("Zadejte množství bílkovin v gramech na 100 g produktu.");
-            int proteinGram = userIO.GetUserInputInteger();
-            userIO.WriteLine("Zadejte množství tuků v gramech na 100 g produktu.");
-            int fatGram = userIO.GetUserInputInteger();
-            userIO.WriteLine("Zadejte množství cukru v gramech na 100 g produktu.");
-            int sugarGram = userIO.GetUserInputInteger();
+            UserIO.WriteLine("Zadejte množství bílkovin v gramech na 100 g produktu.");
+            int proteinGram = UserIO.GetUserInputInteger();
+            UserIO.WriteLine("Zadejte množství tuků v gramech na 100 g produktu.");
+            int fatGram = UserIO.GetUserInputInteger();
+            UserIO.WriteLine("Zadejte množství cukru v gramech na 100 g produktu.");
+            int sugarGram = UserIO.GetUserInputInteger();
 
             MilkProduct milkProduct = new MilkProduct(generalIngredient.Name, generalIngredient.Amount, generalIngredient.Expiration, ingredientCategory, proteinGram, fatGram, sugarGram);
-            userIO.WriteLine($"Můj mléčný výrobek {milkProduct.Name} {milkProduct.Expiration} {milkProduct.IngredientCategory} {milkProduct.ProteionGram} {milkProduct.FatGram} {milkProduct.SugarGram}.");
+            UserIO.WriteLine($"Můj mléčný výrobek {milkProduct.Name} {milkProduct.Expiration} {milkProduct.IngredientCategory} {milkProduct.ProteionGram} {milkProduct.FatGram} {milkProduct.SugarGram}.");
             //userIO.WriteLine(milkProduct.GetIngredientsInfo());
             return milkProduct;
         }
 
-        public VegetablesAndFruits FillVegetablesAndFruitsPropertyForIngredientInConsole(int ingredientCategory, IUserIO userIO)
+        public VegetablesAndFruits FillVegetablesAndFruitsPropertyForIngredientInConsole(int ingredientCategory)
         {
-            Others generalIngredient = FillGeneralPropertyForIngredientInConsole(ingredientCategory, userIO);
+            Others generalIngredient = FillGeneralPropertyForIngredientInConsole(ingredientCategory);
 
-            userIO.WriteLine("Zadejte vitamíny obsažené v přísadě.");
-            string vitamin = userIO.GetUserInputString();
-            userIO.WriteLine("Zadejte množství vlákniny v gramech ve 100 g produktu.");
-            int fiberGram = userIO.GetUserInputInteger();
+            UserIO.WriteLine("Zadejte vitamíny obsažené v přísadě.");
+            string vitamin = UserIO.GetUserInputString();
+            UserIO.WriteLine("Zadejte množství vlákniny v gramech ve 100 g produktu.");
+            int fiberGram = UserIO.GetUserInputInteger();
 
             VegetablesAndFruits vegetablesAndFruits = new VegetablesAndFruits(generalIngredient.Name, generalIngredient.Amount, generalIngredient.Expiration, ingredientCategory, vitamin, fiberGram);
             //myConsole.WriteLine($"Moje maso {meat.Name} {meat.Expiration} {meat.IngredientCategory} {meat.ProteionGram} {meat.FatGram}");
@@ -106,25 +128,23 @@ namespace CookBook.Recipe.Content
             return vegetablesAndFruits;
         }
 
-        public Others FillOthersPropertyForIngredientInConsole(int ingredientCategory, IUserIO userIO)
+        public Others FillOthersPropertyForIngredientInConsole(int ingredientCategory)
         {
-            Others generalIngredient = FillGeneralPropertyForIngredientInConsole(ingredientCategory, userIO);
+            Others generalIngredient = FillGeneralPropertyForIngredientInConsole(ingredientCategory);
 
-            userIO.WriteLine("Zadejte popis přísady.");
-            string description = userIO.GetUserInputString();
+            UserIO.WriteLine("Zadejte popis přísady.");
+            string description = UserIO.GetUserInputString();
 
             Others others = new Others(generalIngredient.Name, generalIngredient.Amount, generalIngredient.Expiration, ingredientCategory, description);
             return others;
         }
 
-        
-
-        public static string GetAmountFromUser(IUserIO userIO)
+        public string GetAmountFromUser()
         {
-            userIO.WriteLine("Nyní vyplníme množství suroviny. Vyber, zda budeš zadávat surovinu v gramech, mililitrech nebo v kusech. Pro gramy zadej 1, pro mililitry 2, pro kusy 3.");
-            int amountUnit = userIO.GetUserInputIntegerInGivenRange(1, 3);
-            userIO.WriteLine("Vyplň množství suroviny.");
-            int amount = userIO.GetUserInputInteger();
+            UserIO.WriteLine("Nyní vyplníme množství suroviny. Vyber, zda budeš zadávat surovinu v gramech, mililitrech nebo v kusech. Pro gramy zadej 1, pro mililitry 2, pro kusy 3.");
+            int amountUnit = UserIO.GetUserInputIntegerInGivenRange(1, 3);
+            UserIO.WriteLine("Vyplň množství suroviny.");
+            int amount = UserIO.GetUserInputInteger();
             string amountStr = "";
             switch (amountUnit)
             {
@@ -141,165 +161,162 @@ namespace CookBook.Recipe.Content
             return amountStr;
         }
 
-        public static List<Ingredients> GetIngredientsListFromUser(IUserIO userIO)
+        public List<Ingredients> GetIngredientsListFromUser()
         {
-            IngredientsManager manager = new IngredientsManager();
 
-
-            userIO.WriteLine("Nyní se pustíme do vyplňování ingrediencí.");
-            userIO.WriteLine("Nejprve zadej, kolik celkově budeš vyplňovat ingrediencí.");
+            UserIO.WriteLine("Nyní se pustíme do vyplňování ingrediencí.");
+            UserIO.WriteLine("Nejprve zadej, kolik celkově budeš vyplňovat ingrediencí.");
 
             List<Ingredients> ingredientsList = new List<Ingredients>();
 
-            int ingredientsCount = userIO.GetUserInputInteger();
+            int ingredientsCount = UserIO.GetUserInputInteger();
             int enumIngredientCategoryCount = Enum.GetNames(typeof(IngredientCategory)).Length;
 
             for (int j = 0; j < ingredientsCount; j++)
             {
-                userIO.WriteLine("Zadej číslo kategorie ingredience podle této tabulky:");
+                UserIO.WriteLine("Zadej číslo kategorie ingredience podle této tabulky:");
                 for (int i = 0; i < enumIngredientCategoryCount; i++)
                 {
-                    userIO.WriteLine($"{i} je {(IngredientCategory)i}");
+                    UserIO.WriteLine($"{i} je {(IngredientCategory)i}");
                 }
-                int ingredientCategory = userIO.GetUserInputIntegerInGivenRange(0, enumIngredientCategoryCount);
+                int ingredientCategory = UserIO.GetUserInputIntegerInGivenRange(0, enumIngredientCategoryCount);
 
                 switch (ingredientCategory)
                 {
                     case 0:
-                        userIO.WriteLine($"kategorie {ingredientCategory} maso");
+                        UserIO.WriteLine($"kategorie {ingredientCategory} maso");
                         //Meat newMeat = FillMeatPropertyForIngredientInConsole(ingredientCategory, userIO);
-                        Meat newMeat = manager.FillMeatPropertyForIngredientInConsole(ingredientCategory, userIO);
+                        Meat newMeat = FillMeatPropertyForIngredientInConsole(ingredientCategory);
                         ingredientsList.Add(newMeat);
                         //newMeat.GetIngredientsInfo();
                         break;
                     case 1:
-                        userIO.WriteLine($"kategorie {ingredientCategory} zelenina");
-                        VegetablesAndFruits newVegetablesAndFruits = manager.FillVegetablesAndFruitsPropertyForIngredientInConsole(ingredientCategory, userIO);
+                        UserIO.WriteLine($"kategorie {ingredientCategory} zelenina");
+                        VegetablesAndFruits newVegetablesAndFruits = FillVegetablesAndFruitsPropertyForIngredientInConsole(ingredientCategory);
                         ingredientsList.Add(newVegetablesAndFruits);
                         //newVegetablesAndFruits.GetIngredientsInfo();
                         break;
                     case 2:
-                        userIO.WriteLine($"kategorie {ingredientCategory} mlecny produkt");
-                        MilkProduct milkProduct = manager.FillMilkProductPropertyForIngredientInConsole(ingredientCategory, userIO);
+                        UserIO.WriteLine($"kategorie {ingredientCategory} mlecny produkt");
+                        MilkProduct milkProduct = FillMilkProductPropertyForIngredientInConsole(ingredientCategory);
                         ingredientsList.Add(milkProduct);
                         //milkProduct.GetIngredientsInfo();
                         break;
                     case 3:
-                        userIO.WriteLine($"kategorie {ingredientCategory} ostatni");
-                        Others newOthers = manager.FillOthersPropertyForIngredientInConsole(ingredientCategory, userIO);
+                        UserIO.WriteLine($"kategorie {ingredientCategory} ostatni");
+                        Others newOthers = FillOthersPropertyForIngredientInConsole(ingredientCategory);
                         ingredientsList.Add(newOthers);
                         //newOthers.GetIngredientsInfo();
                         break;
                 }
-                userIO.WriteLine("Skončili jsme s vyplňováním jedné ingredience.");
+                UserIO.WriteLine("Skončili jsme s vyplňováním jedné ingredience.");
             }
             return ingredientsList;
         }
 
         //methods for getting information about recipes
-        public static void GetRecipeInfo(IUserIO userIO, MyRecipe recipe)
+        public void GetRecipeInfo(MyRecipe recipe)
         {
-            userIO.WriteLine($"Můj recept {recipe.Name} z kategorie {recipe.RecipeCategory}.");
+            UserIO.WriteLine($"Můj recept {recipe.Name} z kategorie {recipe.RecipeCategory}.");
             recipe.Procedure.GetProcedureInfo();
             foreach (var ingredient in recipe.Ingredients)
             {
                 //TODO nahradit string misto vypisu
-                Console.WriteLine(ingredient.GetIngredientsInfo());
-                Console.WriteLine("jsem v metode getrecipeinfo");
+                UserIO.WriteLine(ingredient.GetIngredientsInfo());
             }
         }
 
-        public static void GetAllRecipeInfo(IUserIO userIO)
+        public void GetAllRecipeInfo()
         {
             foreach (var recipe in MyRecipe.MyRecipes)
             {
-                IngredientsManager.GetRecipeInfo(userIO, recipe);
+                GetRecipeInfo(recipe);
             }
         }
 
-        public static void GetSpecificRecipeInfo(IUserIO userIO)
+        public void GetSpecificRecipeInfo()
         {
-            GetTableWithRecipesOnConsole("Vyber podle této tabulky číslo receptu, který chceš zobrazit:", userIO);
-            int indexOfRecipe = userIO.GetUserInputIntegerInGivenRange(0, MyRecipe.MyRecipes.Count);
+            GetTableWithRecipesOnConsole("Vyber podle této tabulky číslo receptu, který chceš zobrazit:");
+            int indexOfRecipe = UserIO.GetUserInputIntegerInGivenRange(0, MyRecipe.MyRecipes.Count);
             MyRecipe specificRecipe = MyRecipe.MyRecipes[indexOfRecipe];
-            GetRecipeInfo(userIO, specificRecipe);
+            GetRecipeInfo(specificRecipe);
         }
 
-        public static void GetTableWithRecipesOnConsole(string text, IUserIO userIO)
+        public void GetTableWithRecipesOnConsole(string text)
         {
             int recipesCount = MyRecipe.MyRecipes.Count;
-            userIO.WriteLine(text);
+            UserIO.WriteLine(text);
             for (int i = 0; i < recipesCount; i++)
             {
-                userIO.WriteLine($"{i} pro recept {MyRecipe.MyRecipes[i].Name}.");
+                UserIO.WriteLine($"{i} pro recept {MyRecipe.MyRecipes[i].Name}.");
             }
         }
 
-        public static void RemoveSpecificRecipe(IUserIO userIO)
+        public void RemoveSpecificRecipe()
         {
-            GetTableWithRecipesOnConsole("Vyber podle této tabulky číslo receptu, který chceš smazat:", userIO);
-            int indexOfRecipe = userIO.GetUserInputIntegerInGivenRange(0, MyRecipe.MyRecipes.Count);
+            GetTableWithRecipesOnConsole("Vyber podle této tabulky číslo receptu, který chceš smazat:");
+            int indexOfRecipe = UserIO.GetUserInputIntegerInGivenRange(0, MyRecipe.MyRecipes.Count);
             MyRecipe.MyRecipes.RemoveAt(indexOfRecipe);
-            userIO.WriteLine($"Recept byl smazán.");
+            UserIO.WriteLine($"Recept byl smazán.");
         }
 
         // methods for getting user inputs
-        public static int GetRecipeCategoryFromUser(IUserIO userIO)
+        public int GetRecipeCategoryFromUser()
         {
             int enumRecipeCategoryCount = Enum.GetNames(typeof(RecipeCategory)).Length;
-            userIO.WriteLine("Zadej číslo kategorie receptu podle této tabulky:");
+            UserIO.WriteLine("Zadej číslo kategorie receptu podle této tabulky:");
             for (int i = 0; i < enumRecipeCategoryCount; i++)
             {
-                userIO.WriteLine($"{i} je {(RecipeCategory)i}");
+                UserIO.WriteLine($"{i} je {(RecipeCategory)i}");
             }
-            int recipeCategory = userIO.GetUserInputIntegerInGivenRange(0, enumRecipeCategoryCount - 1);
+            int recipeCategory = UserIO.GetUserInputIntegerInGivenRange(0, enumRecipeCategoryCount - 1);
             return recipeCategory;
         }
 
-        public static string GetRecipeNameFromUser(IUserIO userIO)
+        public string GetRecipeNameFromUser()
         {
-            userIO.WriteLine("Zadej jméno receptu");
-            string name = userIO.GetUserInputString();
+            UserIO.WriteLine("Zadej jméno receptu");
+            string name = UserIO.GetUserInputString();
             return name;
         }
 
-        public static MyRecipe AddNewRecipe(IUserIO userIO)
+        public MyRecipe AddNewRecipe()
         {
-            string recipeName = IngredientsManager.GetRecipeNameFromUser(userIO);
-            int recipeCategory = IngredientsManager.GetRecipeCategoryFromUser(userIO);
+            string recipeName = GetRecipeNameFromUser();
+            int recipeCategory = GetRecipeCategoryFromUser();
 
-            List<Ingredients> ingredientsList = IngredientsManager.GetIngredientsListFromUser(userIO);
-            Procedure newProcedure = Procedure.GetProcedureFromUser(userIO);
+            List<Ingredients> ingredientsList = GetIngredientsListFromUser();
+            Procedure newProcedure = GetProcedureFromUser();
             MyRecipe myRecipe = new MyRecipe(recipeName, recipeCategory, newProcedure, ingredientsList);
             MyRecipe.MyRecipes.Add(myRecipe);
             return myRecipe;
         }
 
         //TODO da se pouzit neco jako StringComparer.CurrentCultureIgnoreCase
-        public static void FindRecipeByPartOfName(string recipeName, IUserIO userIO)
+        public void FindRecipeByPartOfName(string recipeName)
         {
-            userIO.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
+            UserIO.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
             var results = MyRecipe.MyRecipes.Where(r => r.Name.ToLower().Contains(recipeName.ToLower()));
             foreach (var recipe in results)
             {
-                IngredientsManager.GetRecipeInfo(userIO, recipe);
+                GetRecipeInfo(recipe);
             }
         }
 
-        public static void FindRecipeWithGivenIngredient(string ingredientName, IUserIO userIO)
+        public void FindRecipeWithGivenIngredient(string ingredientName)
         {
-            userIO.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
+            UserIO.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
             foreach (MyRecipe recipe in MyRecipe.MyRecipes)
             {
                 var results = recipe.Ingredients.Where(i => i.Name.ToLower().Contains(ingredientName.ToLower()));
                 if (results.Count() > 0)
                 {
-                    IngredientsManager.GetRecipeInfo(userIO, recipe);
+                    GetRecipeInfo(recipe);
                 }
             }
         }
 
-        public static void FindRecipeWithTheFastestProcedure(IUserIO userIO)
+        public void FindRecipeWithTheFastestProcedure()
         {
             var orderedRecipesByTime = MyRecipe.MyRecipes.OrderBy(r => r.Procedure.PreparationTimeInMinutes);
             var groupedOrderedRecipes = orderedRecipesByTime.GroupBy(r => r.Procedure.PreparationTimeInMinutes, r => r.Name, (recipePreparationTimes, recipeNames) => new
@@ -309,15 +326,15 @@ namespace CookBook.Recipe.Content
             }).ToList();
 
             var lowestPreparationTimeGroup = groupedOrderedRecipes[0];
-            userIO.WriteLine($"Nejkratší čas pro přípravu receptu je {lowestPreparationTimeGroup.GroupedTime}.");
+            UserIO.WriteLine($"Nejkratší čas pro přípravu receptu je {lowestPreparationTimeGroup.GroupedTime}.");
 
             foreach (var itemName in lowestPreparationTimeGroup.GroupedName)
             {
-                userIO.WriteLine($"Název receptu: {itemName}");
+                UserIO.WriteLine($"Název receptu: {itemName}");
             }
         }
 
-        public static void FindRecipeWithTheNearestIngredientExpiration(IUserIO userIO)
+        public void FindRecipeWithTheNearestIngredientExpiration()
         {
             List<DateTime> expirationTheClosestList = new List<DateTime>();
             List<String> nameIngredientWithTheCloesestExpirationList = new List<String>();
@@ -338,10 +355,10 @@ namespace CookBook.Recipe.Content
             }
             DateTime theClosestExpiration = expirationTheClosestList.Min();
             int indexOfRecipeWithTheClosestExpiration = expirationTheClosestList.IndexOf(theClosestExpiration);
-            userIO.WriteLine($"Na zadaný dotaz jsem našel tento recept {MyRecipe.MyRecipes[indexOfRecipeWithTheClosestExpiration].Name} obsahující tuto surovinu: {nameIngredientWithTheCloesestExpirationList[indexOfRecipeWithTheClosestExpiration]} s blížící se expirací: {theClosestExpiration}.");
+            UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept {MyRecipe.MyRecipes[indexOfRecipeWithTheClosestExpiration].Name} obsahující tuto surovinu: {nameIngredientWithTheCloesestExpirationList[indexOfRecipeWithTheClosestExpiration]} s blížící se expirací: {theClosestExpiration}.");
         }
 
-        public static void FindRecipeWithTheHighestProteionContent(IUserIO userIO)
+        public void FindRecipeWithTheHighestProteionContent()
         {
             List<int> proteinSumList = new List<int>();
 
@@ -367,36 +384,26 @@ namespace CookBook.Recipe.Content
                 proteinSumInRecipe = 0;
             }
             int index = proteinSumList.IndexOf(proteinSumList.Max());
-            userIO.WriteLine($"Na zadaný dotaz jsem našel tento recept s nejvyšším obsahem proteinů: {MyRecipe.MyRecipes[index].Name}.");
+            UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept s nejvyšším obsahem proteinů: {MyRecipe.MyRecipes[index].Name}.");
         }
 
-        public static void RunRecipeApp(IUserIO userIO)
+        
+        public Procedure GetProcedureFromUser()
         {
-
-            while (true)
+            UserIO.WriteLine("Vyplňte celkovou délku přípravy pokrmu v minutách.");
+            int preparationTimeInMinutes = UserIO.GetUserInputInteger();
+            UserIO.WriteLine("Vyplňte obtížnost receptu podle následující tabulky.");
+            int enumRecipeCategoryCount = Enum.GetNames(typeof(Difficulty)).Length;
+            for (int i = 0; i < enumRecipeCategoryCount; i++)
             {
-                userIO.WriteLine($"Vyber, co budeš dělat, a zadej číslo daného výběru: 1. Přidávat nový recept, 2. Editovat recept, 3. Mazat recept, 4. Vypsat informace o receptu.");
-                int choosedAction = userIO.GetUserInputIntegerInGivenRange(1, 4);
-                switch (choosedAction)
-                {
-                    case 1:
-                        IngredientsManager.AddNewRecipe(userIO);
-                        IngredientsManager.GetAllRecipeInfo(userIO);
-                        Console.WriteLine("Skončili jsme s vyplňováním jednoho receptu. Stiskni enter pro pokračování.");
-                        Console.ReadLine();
-                        break;
-                    case 2:
-                        userIO.WriteLine("Ještě nic neumím, zkus to později.");
-                        break;
-                    case 3:
-                        IngredientsManager.RemoveSpecificRecipe(userIO);
-                        break;
-                    case 4:
-                        userIO.WriteLine("jsem ve 4.");
-                        IngredientsManager.GetSpecificRecipeInfo(userIO);
-                        break;
-                }
+                UserIO.WriteLine($"{i} je {(Difficulty)i}");
             }
+            int difficulty = UserIO.GetUserInputIntegerInGivenRange(0, enumRecipeCategoryCount);
+            UserIO.WriteLine("Vyplňte postup přípravy.");
+            string description = UserIO.GetUserInputString();
+
+            Procedure newProcedure = new Procedure(preparationTimeInMinutes, difficulty, description);
+            return newProcedure;
         }
     }
 }
