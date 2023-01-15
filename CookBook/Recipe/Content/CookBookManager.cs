@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace CookBook.Recipe.Content
 {
-    public class IngredientsManager
+    public class CookBookManager
     {
         public IUserIO UserIO { get; private set; }
-        public IngredientsManager(string typeOfUserIO)
+        public CookBookManager(string typeOfUserIO)
         {
             if (typeOfUserIO == "console")
             {
