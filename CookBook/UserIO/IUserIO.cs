@@ -6,6 +6,7 @@
         int GetUserInputInteger();
         int GetUserInputIntegerInGivenRange(int lowerLimit, int upperLimit);
         void WriteLine(string text);
+        string ReadLine();
         bool CheckIfUserTerminateApplication ();
         void ExitApplication();
     }

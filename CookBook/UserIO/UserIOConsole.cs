@@ -4,9 +4,15 @@ namespace CookBook.UserIO
 {
     public class UserIOConsole : IUserIO
     {
+        MyConsole myConsole = new MyConsole();
         public void WriteLine(string text)
         {
-            Console.WriteLine(text);
+            myConsole.WriteLine(text);
+        }
+
+        public string ReadLine()
+        {
+            return myConsole.ReadLine();
         }
         public int GetUserInputInteger()
         {
@@ -22,15 +28,15 @@ namespace CookBook.UserIO
 
         public string GetUserInputString()
         {
-            string input = Console.ReadLine().Trim();
+            string input = myConsole.ReadLine().Trim();
             if (this.CheckIfInputIsX(input))
             {
                 this.ExitApplication();
             }
             while (String.IsNullOrEmpty(input))
             {
-                Console.WriteLine("Zadal jsi neplatný vstup. Opakuj zadání.");
-                input = Console.ReadLine().Trim();
+                myConsole.WriteLine("Zadal jsi neplatný vstup. Opakuj zadání.");
+                input = myConsole.ReadLine().Trim();
                 if (this.CheckIfInputIsX(input))
                 {
                     this.ExitApplication();
@@ -45,7 +51,7 @@ namespace CookBook.UserIO
 
             while (numberToCheck < lowerLimit | numberToCheck > upperLimit)
             {
-                Console.WriteLine("Zadal jsi číslo v nesprávném rozsahu. Opakuj zadání.");
+                myConsole.WriteLine("Zadal jsi číslo v nesprávném rozsahu. Opakuj zadání.");
                 numberToCheck = this.GetUserInputInteger();
             }
             return numberToCheck;
@@ -55,7 +61,7 @@ namespace CookBook.UserIO
         {
             if (Console.ReadKey().Key == ConsoleKey.Escape)
             {
-                Console.WriteLine("Zmackl jsem esc");
+                myConsole.WriteLine("Zmackl jsem esc");
                 return true;
             }
             return false;

@@ -30,8 +30,8 @@ namespace CookBook.Recipe.Content
                 {
                     case 1:
                         AddNewRecipe();
-                        Console.WriteLine("Skončili jsme s vyplňováním jednoho receptu. Stiskni enter pro pokračování.");
-                        Console.ReadLine();
+                        UserIO.WriteLine("Skončili jsme s vyplňováním jednoho receptu. Stiskni enter pro pokračování.");
+                        UserIO.ReadLine();
                         break;
                     case 2:
                         UserIO.WriteLine("Ještě nic neumím, zkus to později.");
@@ -350,7 +350,7 @@ namespace CookBook.Recipe.Content
                 var items = (recipe.Ingredients.OrderBy(e => e.Expiration));
                 /*foreach(var item in items)
                 {
-                    Console.WriteLine($"prochazim expirace {item.Expiration } {item.Name}");
+                    UserIO.WriteLine($"prochazim expirace {item.Expiration } {item.Name}");
                 }*/
 
                 expirationTheClosestList.Add(expirationTheClosest);

@@ -15,7 +15,8 @@ namespace CookBook
         {
             RecipeFactory recipeFactory = new RecipeFactory();
             recipeFactory.createDefaultRecipes();
-            Console.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
+            MyConsole myConsole = new MyConsole();
+            myConsole.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
             CookBookManager cookBookManager = new CookBookManager(new UserIOConsole());
             cookBookManager.RunRecipeApp();
         }

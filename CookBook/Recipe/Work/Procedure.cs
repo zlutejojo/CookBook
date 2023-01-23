@@ -11,13 +11,15 @@ namespace CookBook.Recipe.Work
 
         public Procedure(int preparationTimeInMinutes, int difficulty, string description)
         {
+            //TODO change myConsole to logging
+            MyConsole myConsole = new MyConsole();
             if (preparationTimeInMinutes > 0)
             {
                 this.PreparationTimeInMinutes = preparationTimeInMinutes;
             }
             else
             {
-                Console.WriteLine("Čas musí být alespoň 1 minuta.");
+                myConsole.WriteLine("Čas musí být alespoň 1 minuta.");
             }
 
             var descritionEnumCount = Enum.GetNames(typeof(Difficulty)).Length;
@@ -27,7 +29,7 @@ namespace CookBook.Recipe.Work
             }
             else
             {
-                Console.WriteLine("Stupeň obtížnosti není spravně nastavený.");
+                myConsole.WriteLine("Stupeň obtížnosti není spravně nastavený.");
             }
 
             if (!(String.IsNullOrEmpty(description)))
@@ -36,13 +38,13 @@ namespace CookBook.Recipe.Work
             }
             else
             {
-                Console.WriteLine("Popis procedury není spravně nastavený.");
+                myConsole.WriteLine("Popis procedury není spravně nastavený.");
             }
         }
         
-        public void GetProcedureInfo()
+        public string GetProcedureInfo()
         {
-            Console.WriteLine($"Vypisuju informace pro postup přípravy receptu: délka: {this.PreparationTimeInMinutes}, obtížnost: {(Difficulty)this.Difficulty}, postup: {this.Description}.");
+            return $"Vypisuju informace pro postup přípravy receptu: délka: {this.PreparationTimeInMinutes}, obtížnost: {(Difficulty)this.Difficulty}, postup: {this.Description}.";
         }
     }
 }

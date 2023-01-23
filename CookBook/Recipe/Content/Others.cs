@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CookBook.UserIO;
+using System;
 
 namespace CookBook.Recipe.Content
 {
@@ -7,14 +8,16 @@ namespace CookBook.Recipe.Content
         string Description;
         public Others(string name, string amount, DateTime expiration, int categoryNumber, string description) : base(name, amount, expiration, categoryNumber)
         {
-            
+
+            //TODO change myConsole to logging
+            MyConsole myConsole = new MyConsole(); 
             if (!(String.IsNullOrWhiteSpace(description)))
             {
                 this.Description = description;
             }
             else
             {
-                Console.WriteLine("Popis ingredience není nastaven správně.");
+                myConsole.WriteLine("Popis ingredience není nastaven správně.");
             }
         }
 

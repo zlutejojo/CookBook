@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CookBook.UserIO;
+using System;
 
 namespace CookBook.Recipe.Content
 {
@@ -9,9 +10,11 @@ namespace CookBook.Recipe.Content
 
         public Meat(string name, string amount, DateTime expiration, int categoryNumber, int proteinGram, int fatGram) : base(name, amount, expiration, categoryNumber)
         {
+            //TODO change myConsole to logging
+            MyConsole myConsole = new MyConsole();
             if(proteinGram < 0)
             {
-                Console.WriteLine("Nenastavil jsi správně množství bílkovin. Nastavuji hodnotu -1");
+                myConsole.WriteLine("Nenastavil jsi správně množství bílkovin. Nastavuji hodnotu -1");
                 this.ProteionGram = -1;
             } 
             else 
@@ -21,7 +24,7 @@ namespace CookBook.Recipe.Content
 
             if (fatGram < 0)
             {
-                Console.WriteLine("Nenastavil jsi správně množství tuku. Nastavuji hodnotu -1");
+                myConsole.WriteLine("Nenastavil jsi správně množství tuku. Nastavuji hodnotu -1");
                 this.FatGram = -1;
             }
             else

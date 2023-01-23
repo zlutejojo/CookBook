@@ -11,7 +11,6 @@ namespace CookBook.Recipe.Content
         public IngredientCategory IngredientCategory { get; private set; }
         public List<Ingredients> IngredientsLst{ get; private set; }
 
-        //TODO pridat message k vyjimkam a odstranit vypis na konzoli
         public Ingredients(string name, string amount, DateTime expiration, int ingredientCategory)
         {
             if (!(String.IsNullOrEmpty(name)))

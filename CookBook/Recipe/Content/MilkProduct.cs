@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CookBook.UserIO;
+using System;
 
 namespace CookBook.Recipe.Content
 {
@@ -10,10 +11,11 @@ namespace CookBook.Recipe.Content
 
         public MilkProduct(string name, string amount, DateTime expiration, int ingredientCategory, int proteinGram, int fatGram, int sugarGram) : base(name, amount, expiration, ingredientCategory)
         {
+            //TODO change myConsole to logging
+            MyConsole myConsole = new MyConsole();
             if (proteinGram < 0)
             {
-                //TODO odstranit vypis a misto nej pridat logovani
-                Console.WriteLine("Nenastavil jsi správně množství bílkovin. Nastavuji hodnotu -1");
+                myConsole.WriteLine("Nenastavil jsi správně množství bílkovin. Nastavuji hodnotu -1");
                 this.ProteionGram = -1;
             }
             else
@@ -23,7 +25,7 @@ namespace CookBook.Recipe.Content
 
             if (fatGram < 0)
             {
-                Console.WriteLine("Nenastavil jsi správně množství tuku. Nastavuji hodnotu -1");
+                myConsole.WriteLine("Nenastavil jsi správně množství tuku. Nastavuji hodnotu -1");
                 this.FatGram = -1;
             }
             else
@@ -33,7 +35,7 @@ namespace CookBook.Recipe.Content
 
             if (sugarGram < 0)
             {
-                Console.WriteLine("Nenastavil jsi správně množství tuku. Nastavuji hodnotu -1");
+                myConsole.WriteLine("Nenastavil jsi správně množství tuku. Nastavuji hodnotu -1");
                 this.SugarGram = -1;
             }
             else

@@ -28,7 +28,7 @@ namespace CookBook.Recipe
             }
             else 
             {
-                Console.WriteLine("Jméno není správně nastavené.");
+                throw new ArgumentNullException("Jméno není správně nastavené.");
             }
 
             var myEnumMemberCount = Enum.GetNames(typeof(RecipeCategory)).Length;
@@ -39,7 +39,7 @@ namespace CookBook.Recipe
             }
             else
             {
-                Console.WriteLine("Kategorie není správně nastavená.");
+                throw new ArgumentNullException("Kategorie není správně nastavená.");
             }
 
             if (!(ingredients is null))
@@ -49,7 +49,8 @@ namespace CookBook.Recipe
             }
             else
             {
-                Console.WriteLine("Ingredience není správně nastavená.");
+
+                throw new ArgumentNullException("Ingredience není správně nastavená.");
             }
 
             if (!(procedure is null))
@@ -60,10 +61,8 @@ namespace CookBook.Recipe
             }
             else
             {
-                Console.WriteLine("Postup není správně nastavený.");
+                throw new ArgumentNullException("Postup není správně nastavený.");
             }
         }
-
-        
     }
 }
