@@ -47,6 +47,7 @@
     <Compile Include="Recipe\Content\MilkProduct.cs" />
     <Compile Include="Recipe\Content\Others.cs" />
     <Compile Include="Recipe\Management\CookBookManager.cs" />
+    <Compile Include="Recipe\Management\RecipeFactory.cs" />
     <Compile Include="Recipe\RecipeCategory.cs" />
     <Compile Include="Recipe\Work\Difficulty.cs" />
     <Compile Include="Recipe\Content\Ingredients.cs" />
