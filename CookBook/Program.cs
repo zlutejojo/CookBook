@@ -70,7 +70,7 @@ namespace CookBook
             Meat testIngredience = new Meat("test", "10g", new DateTime(2022, 11, 17), 0, 20, 4);
 
             Console.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
-            CookBookManager cookBookManager = new CookBookManager("console");
+            CookBookManager cookBookManager = new CookBookManager(new UserIOConsole());
             cookBookManager.RunRecipeApp();
         }
     }

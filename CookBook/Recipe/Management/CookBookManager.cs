@@ -9,12 +9,15 @@ namespace CookBook.Recipe.Content
     public class CookBookManager
     {
         public IUserIO UserIO { get; private set; }
-        public CookBookManager(string typeOfUserIO)
+        public CookBookManager(IUserIO userIO)
         {
-            if (typeOfUserIO == "console")
+
+            if (userIO == null)
             {
-                this.UserIO = new UserIOConsole();
-            } else throw new ArgumentException("Zadaný typ User IO neexistuje. Nemáte na mysli: \"console\"?");
+                throw new ArgumentNullException("Nezadali jste IUserIO.");
+            }
+            
+            this.UserIO = userIO;
         }
 
         public void RunRecipeApp()
