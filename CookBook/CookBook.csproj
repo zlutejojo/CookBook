@@ -55,6 +55,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recipe\MyRecipe.cs" />
+    <Compile Include="UserIO\MyConsole.cs" />
     <Compile Include="UserIO\UserIOConsole.cs" />
     <Compile Include="UserIO\IUserIO.cs" />
     <Compile Include="Recipe\Content\VegetablesAndFruits.cs" />
