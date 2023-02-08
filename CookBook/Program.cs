@@ -18,7 +18,9 @@ namespace CookBook
             MyConsole myConsole = new MyConsole();
             myConsole.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
             CookBookManager cookBookManager = new CookBookManager(new UserIOConsole());
+            cookBookManager.FindRecipeWithGivenIngredient("hermelín");
             cookBookManager.RunRecipeApp();
+            //myConsole.ReadLine();
         }
     }
 }

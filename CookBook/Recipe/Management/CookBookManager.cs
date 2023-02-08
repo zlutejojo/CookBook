@@ -309,14 +309,26 @@ namespace CookBook.Recipe.Content
         public void FindRecipeWithGivenIngredient(string ingredientName)
         {
             UserIO.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
+            var filteredRecipes = MyRecipe.MyRecipes.Where(r => r.Ingredients.Any(i => i.Name.ToLower().Contains(ingredientName.ToLower())));
+            foreach (MyRecipe recipe in filteredRecipes)
+            {
+                GetRecipeInfo(recipe);
+            }
+
+            //jiny zpusob tehoz
+            /*
+            UserIO.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
             foreach (MyRecipe recipe in MyRecipe.MyRecipes)
             {
+                var resultsTest = recipe.Ingredients.Any(i => i.Name.ToLower().Contains(ingredientName.ToLower()));
+                
+                
                 var results = recipe.Ingredients.Where(i => i.Name.ToLower().Contains(ingredientName.ToLower()));
                 if (results.Count() > 0)
                 {
                     GetRecipeInfo(recipe);
                 }
-            }
+            }*/
         }
 
         public void FindRecipeWithTheFastestProcedure()
