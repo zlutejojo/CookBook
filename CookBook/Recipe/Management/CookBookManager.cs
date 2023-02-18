@@ -25,7 +25,7 @@ namespace CookBook.Recipe.Content
             while (true)
             {
                 UserIO.WriteLine($"Vyber, co budeš dělat, a zadej číslo daného výběru: 1. Přidávat nový recept, 2. Editovat recept, 3. Mazat recept, 4. Vypsat informace o receptu.");
-                int choosedAction = UserIO.GetUserInputIntegerInGivenRange(1, 4);
+                int choosedAction = UserIO.GetUserInputIntegerInGivenRange(1, 5);
                 switch (choosedAction)
                 {
                     case 1:
@@ -41,6 +41,9 @@ namespace CookBook.Recipe.Content
                         break;
                     case 4:
                         GetSpecificRecipeInfo();
+                        break;
+                    case 5:
+                        FindRecipeByPartOfName("Kur");
                         break;
                 }
             }
@@ -299,21 +302,66 @@ namespace CookBook.Recipe.Content
         public void FindRecipeByPartOfName(string recipeName)
         {
             UserIO.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
+            UserIO.WriteLine("FindRecipeByPartOfName");
+
             var results = MyRecipe.MyRecipes.Where(r => r.Name.ToLower().Contains(recipeName.ToLower()));
+            GetRecipeInfo(results.First());
             foreach (var recipe in results)
             {
+                UserIO.WriteLine("prvni zpusob");
                 GetRecipeInfo(recipe);
             }
+
+            var resultsSQL = from item in MyRecipe.MyRecipes where  item.Name.ToLower().Contains(recipeName.ToLower()) select item;
+
+            foreach (var recipe in resultsSQL)
+            {
+                UserIO.WriteLine("druhy zpusob s SQL zapisem");
+                GetRecipeInfo(recipe);
+            }
+
         }
 
         public void FindRecipeWithGivenIngredient(string ingredientName)
         {
+            //TODO zkusit si to zapsat i SQL zpusobem
             UserIO.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
             var filteredRecipes = MyRecipe.MyRecipes.Where(r => r.Ingredients.Any(i => i.Name.ToLower().Contains(ingredientName.ToLower())));
             foreach (MyRecipe recipe in filteredRecipes)
             {
+                UserIO.WriteLine("prvni zpusob s pouzitim any");
                 GetRecipeInfo(recipe);
             }
+
+            IEnumerable<MyRecipe> filteredRecipesSQL = from item in MyRecipe.MyRecipes where item.Ingredients.Any(i => i.Name.ToLower().Contains(ingredientName.ToLower())) select item;
+
+            foreach (MyRecipe recipe in filteredRecipesSQL)
+            {
+                UserIO.WriteLine("druhy zpusob s pouzitim any a SQL zapisem");
+                GetRecipeInfo(recipe);
+            }
+
+            IEnumerable<string> filteredRecipesName = from item in MyRecipe.MyRecipes
+                                                            where item.Ingredients.All(i => i.Name.ToLower().Contains(ingredientName.ToLower()))
+                                        select item.Name;
+
+            foreach (string name in filteredRecipesName)
+            {
+                UserIO.WriteLine("vyfiltrovani jmena" + name);
+                
+            }
+
+            IEnumerable<MyRecipe> filteredRecipesAll = from item in MyRecipe.MyRecipes
+                                                            where item.Ingredients.All(i => i.Name.ToLower().Contains(ingredientName.ToLower()))
+                                                            select item;
+
+
+            foreach (MyRecipe recipe in filteredRecipesAll)
+            {
+                UserIO.WriteLine("treti zpusob s pouzitim all a SQL zapisem");
+                GetRecipeInfo(recipe);
+            }
+
 
             //jiny zpusob tehoz
             /*
@@ -329,6 +377,7 @@ namespace CookBook.Recipe.Content
                     GetRecipeInfo(recipe);
                 }
             }*/
+            UserIO.WriteLine("konec metody");
         }
 
         public void FindRecipeWithTheFastestProcedure()
