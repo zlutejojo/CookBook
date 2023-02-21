@@ -304,7 +304,7 @@ namespace CookBook.Recipe.Content
             UserIO.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
             UserIO.WriteLine("FindRecipeByPartOfName");
 
-            var results = MyRecipe.MyRecipes.Where(r => r.Name.ToLower().Contains(recipeName.ToLower()));
+            var results = MyRecipe.MyRecipes.Where(r => r.Name.ToLower().Contains(recipeName.ToLower())).ToArray();
             GetRecipeInfo(results.First());
             foreach (var recipe in results)
             {
@@ -312,14 +312,13 @@ namespace CookBook.Recipe.Content
                 GetRecipeInfo(recipe);
             }
 
-            var resultsSQL = from item in MyRecipe.MyRecipes where  item.Name.ToLower().Contains(recipeName.ToLower()) select item;
+            var resultsSQL = (from item in MyRecipe.MyRecipes where  item.Name.ToLower().Contains(recipeName.ToLower()) select item).ToArray();
 
             foreach (var recipe in resultsSQL)
             {
                 UserIO.WriteLine("druhy zpusob s SQL zapisem");
                 GetRecipeInfo(recipe);
             }
-
         }
 
         public void FindRecipeWithGivenIngredient(string ingredientName)
@@ -405,6 +404,7 @@ namespace CookBook.Recipe.Content
 
             foreach (MyRecipe recipe in MyRecipe.MyRecipes)
             {
+                //toto mi najde jenom prvni expiraci, ne vsechny
                 DateTime expirationTheClosest = (recipe.Ingredients.OrderBy(e => e.Expiration).First()).Expiration;
                 String nameIngredientWithTheCloesestExpiration = (recipe.Ingredients.OrderBy(e => e.Expiration).First()).Name;
 

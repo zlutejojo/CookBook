@@ -18,6 +18,11 @@ namespace CookBook
             MyConsole myConsole = new MyConsole();
             myConsole.WriteLine("Ahoj, jsem aplikace na zapisování receptů. Kdykoliv mě budeš chtít ukončit, zadej x.");
             CookBookManager cookBookManager = new CookBookManager(new UserIOConsole());
+
+            //cookBookManager.FindRecipeByPartOfName("kur");
+            //cookBookManager.FindRecipeWithGivenIngredient("herm");
+            //cookBookManager.FindRecipeWithTheFastestProcedure();
+            cookBookManager.FindRecipeWithTheNearestIngredientExpiration();
             cookBookManager.RunRecipeApp();
             myConsole.ReadLine();
         }
