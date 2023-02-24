@@ -399,27 +399,52 @@ namespace CookBook.Recipe.Content
 
         public void FindRecipeWithTheNearestIngredientExpiration()
         {
-            List<DateTime> expirationTheClosestList = new List<DateTime>();
-            List<String> nameIngredientWithTheCloesestExpirationList = new List<String>();
+            List<DateTime> ingredientsWithNearestExpiration = new List<DateTime>();
+            List<String> nameIngredientWithNearestExpirationList = new List<String>();
+
+            //MyRecipe.MyRecipes.ForEach(r => r.Ingredients.OrderBy(e => var neco = e.Expiration.First()).Expiration));
+
+            MyRecipe.MyRecipes.ForEach(r =>
+            {
+                var neco =
+            //r.Ingredients.Where(i => i.GetType() == typeof(Meat)).ToList();
+                r.Ingredients.Where(i => i.Name.Contains("her")).ToList();
+            });
+
+            /*
+            MyRecipe.MyRecipes.ForEach(r =>
+            {
+                var neco =
+                r.Name.Where(i => i.Contains("her")).ToList();
+            });
+            */
+
+            //MyRecipe.MyRecipes.ForEach(r => r.Ingredients.Where(i => i.Name.Contains("her")));
+            //MyRecipe.MyRecipes.ForEach(r => r.Ingredients.Where(i => Console.WriteLine(i.Name)));
+
 
             foreach (MyRecipe recipe in MyRecipe.MyRecipes)
             {
+                
                 //toto mi najde jenom prvni expiraci, ne vsechny
+                //DateTime expirationTheClosest = (recipe.Ingredients.OrderBy(e => e.Expiration).First()).Expiration;
                 DateTime expirationTheClosest = (recipe.Ingredients.OrderBy(e => e.Expiration).First()).Expiration;
                 String nameIngredientWithTheCloesestExpiration = (recipe.Ingredients.OrderBy(e => e.Expiration).First()).Name;
+                //var filteredRecipes = MyRecipe.MyRecipes.Where(r => r.Ingredients.Any(i => i.Name.ToLower().Contains(ingredientName.ToLower())));
 
-                var items = (recipe.Ingredients.OrderBy(e => e.Expiration));
+                //var orderedRecipesByExpiration = (r => r.Ingredients);
+               
                 /*foreach(var item in items)
                 {
                     UserIO.WriteLine($"prochazim expirace {item.Expiration } {item.Name}");
                 }*/
 
-                expirationTheClosestList.Add(expirationTheClosest);
-                nameIngredientWithTheCloesestExpirationList.Add(nameIngredientWithTheCloesestExpiration);
+                ingredientsWithNearestExpiration.Add(expirationTheClosest);
+                nameIngredientWithNearestExpirationList.Add(nameIngredientWithTheCloesestExpiration);
             }
-            DateTime theClosestExpiration = expirationTheClosestList.Min();
-            int indexOfRecipeWithTheClosestExpiration = expirationTheClosestList.IndexOf(theClosestExpiration);
-            UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept {MyRecipe.MyRecipes[indexOfRecipeWithTheClosestExpiration].Name} obsahující tuto surovinu: {nameIngredientWithTheCloesestExpirationList[indexOfRecipeWithTheClosestExpiration]} s blížící se expirací: {theClosestExpiration}.");
+            DateTime theClosestExpiration = ingredientsWithNearestExpiration.Min();
+            int indexOfRecipeWithTheClosestExpiration = ingredientsWithNearestExpiration.IndexOf(theClosestExpiration);
+            UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept {MyRecipe.MyRecipes[indexOfRecipeWithTheClosestExpiration].Name} obsahující tuto surovinu: {nameIngredientWithNearestExpirationList[indexOfRecipeWithTheClosestExpiration]} s blížící se expirací: {theClosestExpiration}.");
         }
 
         public void FindRecipeWithTheHighestProteionContent()
