@@ -16,7 +16,7 @@ namespace CookBook.Recipe.Management
             // recept kure
             Procedure kurePriprava = new Procedure(150, 1, "Dej celé kuře do pekáče a peč ho 2 hodiny na 160 stupňů.");
             List<Ingredients> kureSeznamIngredienci = new List<Ingredients>();
-            Meat kureCele = new Meat("celé kuře", "1 ks", new DateTime(2022, 11, 16), 0, 22, 4);
+            Meat kureCele = new Meat("celé kuře", "1 ks", new DateTime(2021, 11, 16), 0, 22, 4);
             kureSeznamIngredienci.Add(kureCele);
             VegetablesAndFruits brambory = new VegetablesAndFruits("brambory", "4 ks", new DateTime(2023, 3, 31), 1, "hořčík, draslík, vitamíny: A, B, C", 2);
             kureSeznamIngredienci.Add(brambory);

@@ -420,26 +420,28 @@ namespace CookBook.Recipe.Content
             //MyRecipe.MyRecipes.ForEach(r => r.Ingredients.Where(i => i.Name.Contains("her")));
             //MyRecipe.MyRecipes.ForEach(r => r.Ingredients.Where(i => Console.WriteLine(i.Name)));
 
-
+            MyRecipe recipeWithOldestIngredint = MyRecipe.MyRecipes.First();
+            DateTime oldestIngredientExpiration = DateTime.MaxValue;
+            var oldestIngredient = recipeWithOldestIngredint.Ingredients.First();
             foreach (MyRecipe recipe in MyRecipe.MyRecipes)
             {
 
                 DateTime inWeek = DateTime.Today.AddDays(7);
-                var oldestIngredientsLst = recipe.Ingredients
-                    .Where(i => i.Expiration < inWeek)
-                    .ToList();
-                // oldestIngredientsLst.Count == 0 jina moznost
-                if (!oldestIngredientsLst.Any())
+
+                
+                var ingredientWithExpiration = recipe.Ingredients.OrderBy(e => e.Expiration).First();
+
+                if (ingredientWithExpiration.Expiration <= oldestIngredientExpiration)
                 {
-                    Ingredients oldestIngredient = recipe.Ingredients.OrderBy(e => e.Expiration).First();
-                    oldestIngredientsLst.Add(oldestIngredient);
+                    recipeWithOldestIngredint = recipe;
+                    oldestIngredientExpiration = ingredientWithExpiration.Expiration;
+                    oldestIngredient = ingredientWithExpiration;
                 }
 
-                foreach (Ingredients ingredient in oldestIngredientsLst)
-                {
-                    UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept {recipe.Name} obsahující tuto surovinu: {ingredient.Name} s blížící se expirací: {ingredient.Expiration}.");
-                }
+                
             }
+            UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept {recipeWithOldestIngredint.Name} obsahující tuto surovinu: {oldestIngredient.Name} s blížící se expirací: {oldestIngredient.Expiration}.");
+
         }
 
         public void FindRecipeWithTheHighestProteionContent()
