@@ -25,7 +25,7 @@ namespace CookBook.Recipe.Content
             while (true)
             {
                 UserIO.WriteLine($"Vyber, co budeš dělat, a zadej číslo daného výběru: 1. Přidávat nový recept, 2. Editovat recept, 3. Mazat recept, 4. Vypsat informace o receptu.");
-                int choosedAction = UserIO.GetUserInputIntegerInGivenRange(1, 5);
+                int choosedAction = UserIO.GetUserInputIntegerInGivenRange(1, 4);
                 switch (choosedAction)
                 {
                     case 1:
@@ -41,9 +41,6 @@ namespace CookBook.Recipe.Content
                         break;
                     case 4:
                         GetSpecificRecipeInfo();
-                        break;
-                    case 5:
-                        FindRecipeByPartOfName("Kur");
                         break;
                 }
             }
@@ -305,7 +302,7 @@ namespace CookBook.Recipe.Content
             UserIO.WriteLine("FindRecipeByPartOfName");
 
             var results = MyRecipe.MyRecipes.Where(r => r.Name.ToLower().Contains(recipeName.ToLower())).ToArray();
-            GetRecipeInfo(results.First());
+            //GetRecipeInfo(results.First());
             foreach (var recipe in results)
             {
                 UserIO.WriteLine("prvni zpusob");
@@ -339,28 +336,6 @@ namespace CookBook.Recipe.Content
                 UserIO.WriteLine("druhy zpusob s pouzitim any a SQL zapisem");
                 GetRecipeInfo(recipe);
             }
-
-            IEnumerable<string> filteredRecipesName = from item in MyRecipe.MyRecipes
-                                                            where item.Ingredients.All(i => i.Name.ToLower().Contains(ingredientName.ToLower()))
-                                        select item.Name;
-
-            foreach (string name in filteredRecipesName)
-            {
-                UserIO.WriteLine("vyfiltrovani jmena" + name);
-                
-            }
-
-            IEnumerable<MyRecipe> filteredRecipesAll = from item in MyRecipe.MyRecipes
-                                                            where item.Ingredients.All(i => i.Name.ToLower().Contains(ingredientName.ToLower()))
-                                                            select item;
-
-
-            foreach (MyRecipe recipe in filteredRecipesAll)
-            {
-                UserIO.WriteLine("treti zpusob s pouzitim all a SQL zapisem");
-                GetRecipeInfo(recipe);
-            }
-
 
             //jiny zpusob tehoz
             /*
@@ -400,13 +375,13 @@ namespace CookBook.Recipe.Content
         public void FindRecipeWithTheNearestIngredientExpiration()
         {
 
-            //MyRecipe.MyRecipes.ForEach(r => r.Ingredients.OrderBy(e => var neco = e.Expiration.First()).Expiration));
-
             MyRecipe.MyRecipes.ForEach(r =>
             {
-                var neco =
-            //r.Ingredients.Where(i => i.GetType() == typeof(Meat)).ToList();
-                r.Ingredients.Where(i => i.Name.Contains("her")).ToList();
+                var neco = r.Name.Any();
+
+                //var neco = r.Name.Contains("Kur");
+                UserIO.WriteLine($"for each {neco}");
+                //r.Ingredients.Where(i => i.Name.Contains("her")).ToList();
             });
 
             /*
@@ -420,28 +395,26 @@ namespace CookBook.Recipe.Content
             //MyRecipe.MyRecipes.ForEach(r => r.Ingredients.Where(i => i.Name.Contains("her")));
             //MyRecipe.MyRecipes.ForEach(r => r.Ingredients.Where(i => Console.WriteLine(i.Name)));
 
+            //tady si vyberu jakykoliv recept, s kterym budu porovnavat
             MyRecipe recipeWithOldestIngredint = MyRecipe.MyRecipes.First();
+            //tady si vyberu nejstarsi mozne datum pro porovnani
             DateTime oldestIngredientExpiration = DateTime.MaxValue;
             var oldestIngredient = recipeWithOldestIngredint.Ingredients.First();
             foreach (MyRecipe recipe in MyRecipe.MyRecipes)
             {
-
-                DateTime inWeek = DateTime.Today.AddDays(7);
-
-                
+                //tady nepotrebuju vedet, jestli mam vice stejne expirovanych ingredienci, hledam jen recept, takze mi staci prvni nejstarsi expirace ingredience
                 var ingredientWithExpiration = recipe.Ingredients.OrderBy(e => e.Expiration).First();
 
+                //kdyz najdu nejakou starsi ingredienci, nez je moje vychozi, tak si ulozim recept a expiraci nejstarsi ingredience
+                //postupne tak projdu vsechny recepty se serazanymi ingrediencemi a vzdy si ukladam recept, kdyz najdu nejaky se starsi ingredineci
                 if (ingredientWithExpiration.Expiration <= oldestIngredientExpiration)
                 {
                     recipeWithOldestIngredint = recipe;
                     oldestIngredientExpiration = ingredientWithExpiration.Expiration;
                     oldestIngredient = ingredientWithExpiration;
                 }
-
-                
             }
             UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept {recipeWithOldestIngredint.Name} obsahující tuto surovinu: {oldestIngredient.Name} s blížící se expirací: {oldestIngredient.Expiration}.");
-
         }
 
         public void FindRecipeWithTheHighestProteionContent()
