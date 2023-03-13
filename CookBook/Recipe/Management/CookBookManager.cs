@@ -80,7 +80,8 @@ namespace CookBook.Recipe.Content
                 isExistingDate = true;
             }
 
-            Others generalIngredients = new Others(name, amount, expiration, ingredientCategory, "Nenastaveno.");
+            int proteinGramDefault = 0;
+            Others generalIngredients = new Others(name, amount, expiration, ingredientCategory, proteinGramDefault, "Nenastaveno.");
 
             return generalIngredients;
         }
@@ -135,10 +136,13 @@ namespace CookBook.Recipe.Content
         {
             Others generalIngredient = FillGeneralPropertyForIngredientInConsole(ingredientCategory);
 
+            UserIO.WriteLine("Zadejte množství bílkovin v gramech na 100 g produktu.");
+            int proteinGram = UserIO.GetUserInputInteger();
+
             UserIO.WriteLine("Zadejte popis přísady.");
             string description = UserIO.GetUserInputString();
 
-            Others others = new Others(generalIngredient.Name, generalIngredient.Amount, generalIngredient.Expiration, ingredientCategory, description);
+            Others others = new Others(generalIngredient.Name, generalIngredient.Amount, generalIngredient.Expiration, ingredientCategory, proteinGram, description);
             return others;
         }
 

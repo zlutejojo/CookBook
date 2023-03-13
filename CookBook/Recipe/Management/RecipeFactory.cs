@@ -26,11 +26,11 @@ namespace CookBook.Recipe.Management
             //recept pizza hermelin
             Procedure pizzaHermelinPriprava = new Procedure(45, 0, "Na listové těsto naskládej hermelín a potři brusinkovým džemem.");
             List<Ingredients> pizzaHermelinSeznamIngredienci = new List<Ingredients>();
-            Others listoveTesto = new Others("listové těsto", "1 ks", new DateTime(2022, 11, 15), 3, "kupované z obchodu");
+            Others listoveTesto = new Others("listové těsto", "1 ks", new DateTime(2022, 11, 15), 3, 4, "kupované z obchodu");
             pizzaHermelinSeznamIngredienci.Add(listoveTesto);
             MilkProduct hermelin = new MilkProduct("hermelín", "1 ks", new DateTime(2022, 11, 25), 2, 21, 23, 2);
             pizzaHermelinSeznamIngredienci.Add(hermelin);
-            Others brusinkovyDzem = new Others("brusinkový džem", "1 ks", new DateTime(2023, 6, 30), 3, "kupovaný džem z obchodu, pozor obsahuje hodně sacharidů cca 45 g(sacharidy: 50 g)");
+            Others brusinkovyDzem = new Others("brusinkový džem", "1 ks", new DateTime(2023, 6, 30), 3, 0, "kupovaný džem z obchodu, pozor obsahuje hodně sacharidů cca 45 g(sacharidy: 50 g)");
             pizzaHermelinSeznamIngredienci.Add(brusinkovyDzem);
             MyRecipe pizzaHermelin = new MyRecipe("Hermelínová pizza", 3, pizzaHermelinPriprava, pizzaHermelinSeznamIngredienci);
             MyRecipe.MyRecipes.Add(pizzaHermelin);
@@ -52,7 +52,7 @@ namespace CookBook.Recipe.Management
             //recept ovesna kase
             Procedure ovesnaKasePriprava = new Procedure(15, 0, "Ovesné vločky zalij vařící vodou, zakryj na 15 minut a přidej nakrájené jablko.");
             List<Ingredients> ovesnáKašeSeznamIngredienci = new List<Ingredients>();
-            Others ovesnéVločky = new Others("ovesné vločky", "50 g", new DateTime(2023, 9, 15), 2, "sacharidy: 50 g, bílkoviny: 15 g, vláknina: 16 g");
+            Others ovesnéVločky = new Others("ovesné vločky", "50 g", new DateTime(2023, 9, 15), 2, 14, "sacharidy: 50 g, vláknina: 16 g");
             ovesnáKašeSeznamIngredienci.Add(ovesnéVločky);
             VegetablesAndFruits jablko = new VegetablesAndFruits("jablko", "2 ks", new DateTime(2023, 12, 31), 1, "vitamíny: B, C, E", 3);
             ovesnáKašeSeznamIngredienci.Add(jablko);

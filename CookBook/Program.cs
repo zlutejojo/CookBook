@@ -22,7 +22,7 @@ namespace CookBook
             //cookBookManager.FindRecipeByPartOfName("kur");
             //cookBookManager.FindRecipeWithGivenIngredient("herm");
             //cookBookManager.FindRecipeWithTheFastestProcedure();
-            cookBookManager.FindRecipeWithTheNearestIngredientExpiration();
+            //cookBookManager.FindRecipeWithTheNearestIngredientExpiration();
             cookBookManager.RunRecipeApp();
             myConsole.ReadLine();
         }
