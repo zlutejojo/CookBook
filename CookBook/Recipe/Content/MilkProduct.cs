@@ -3,7 +3,7 @@ using System;
 
 namespace CookBook.Recipe.Content
 {
-    public class MilkProduct : Ingredients, HasProtein
+    public class MilkProduct : Ingredients, HasProtein, HasSugar
     {
         public int ProteionGram { get; private set; }
         public int FatGram { get; private set; }
