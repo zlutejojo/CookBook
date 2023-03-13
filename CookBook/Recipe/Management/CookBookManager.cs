@@ -323,6 +323,7 @@ namespace CookBook.Recipe.Content
             //TODO zkusit si to zapsat i SQL zpusobem
             UserIO.WriteLine("Na zadaný dotaz jsem našel tyto recepty: ");
             var filteredRecipes = MyRecipe.MyRecipes.Where(r => r.Ingredients.Any(i => i.Name.ToLower().Contains(ingredientName.ToLower())));
+            //var filteredRecipes = MyRecipe.MyRecipes.Where(r => r.Ingredients.Any(i => i.Name.Contains(ingredientName, StringComparer.InvariantCultureIgnoreCase)));
             foreach (MyRecipe recipe in filteredRecipes)
             {
                 UserIO.WriteLine("prvni zpusob s pouzitim any");
@@ -377,11 +378,12 @@ namespace CookBook.Recipe.Content
 
             MyRecipe.MyRecipes.ForEach(r =>
             {
-                var neco = r.Name.Any();
+                //var neco = r.Name.Any();
 
                 //var neco = r.Name.Contains("Kur");
-                UserIO.WriteLine($"for each {neco}");
-                //r.Ingredients.Where(i => i.Name.Contains("her")).ToList();
+                //UserIO.WriteLine($"for each {neco}");
+                var result = r.Ingredients.Where(i => i.Name.Contains("her")).ToList();
+                result.ForEach(d => UserIO.WriteLine(d.Name));
             });
 
             /*
@@ -425,9 +427,25 @@ namespace CookBook.Recipe.Content
             {
                 int proteinSumInRecipe = 0;
 
+                //todo
+                var meatOnly = recipe.Ingredients.OfType<HasProtein>().ToList();
+
                 foreach (var ingredient in recipe.Ingredients)
                 {
-                    if (ingredient.GetType() == typeof(Meat))
+                    // jenom dotaz s odpovedi ano ne
+                    bool hasProtein = ingredient is HasProtein;
+                    //pokud neni protein vrati null, 
+                    //pokud je, vrati rovnou 
+                    var hasProtein2 = ingredient as HasProtein;
+                    if(hasProtein2 != null)
+                    {
+                        proteinSumInRecipe += hasProtein2.ProteionGram;
+                    }
+
+                    //todo co se stane?
+                    var hasProtein3 = ingredient as MilkProduct; 
+                    
+                    /*if (ingredient.GetType() == typeof(Meat))
                     {
                         Meat meatIngredient = (Meat)ingredient;
                         proteinSumInRecipe += meatIngredient.ProteionGram;
@@ -437,7 +455,7 @@ namespace CookBook.Recipe.Content
                     {
                         MilkProduct milkProductIngredient = (MilkProduct)ingredient;
                         proteinSumInRecipe += milkProductIngredient.ProteionGram;
-                    }
+                    }*/
                 }
                 proteinSumList.Add(proteinSumInRecipe);
                 proteinSumInRecipe = 0;

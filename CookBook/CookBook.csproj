@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Recipe\Content\HasProtein.cs" />
     <Compile Include="Recipe\Content\IngredientCategory.cs" />
     <Compile Include="Recipe\Content\MilkProduct.cs" />
     <Compile Include="Recipe\Content\Others.cs" />
