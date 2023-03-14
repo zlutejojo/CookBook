@@ -379,28 +379,6 @@ namespace CookBook.Recipe.Content
 
         public void FindRecipeWithTheNearestIngredientExpiration()
         {
-
-            MyRecipe.MyRecipes.ForEach(r =>
-            {
-                //var neco = r.Name.Any();
-
-                //var neco = r.Name.Contains("Kur");
-                //UserIO.WriteLine($"for each {neco}");
-                var result = r.Ingredients.Where(i => i.Name.Contains("her")).ToList();
-                result.ForEach(d => UserIO.WriteLine(d.Name));
-            });
-
-            /*
-            MyRecipe.MyRecipes.ForEach(r =>
-            {
-                var neco =
-                r.Name.Where(i => i.Contains("her")).ToList();
-            });
-            */
-
-            //MyRecipe.MyRecipes.ForEach(r => r.Ingredients.Where(i => i.Name.Contains("her")));
-            //MyRecipe.MyRecipes.ForEach(r => r.Ingredients.Where(i => Console.WriteLine(i.Name)));
-
             //tady si vyberu jakykoliv recept, s kterym budu porovnavat
             MyRecipe recipeWithOldestIngredint = MyRecipe.MyRecipes.First();
             //tady si vyberu nejstarsi mozne datum pro porovnani
@@ -426,6 +404,7 @@ namespace CookBook.Recipe.Content
         public void FindRecipeWithTheHighestProteionContent()
         {
             List<int> proteinSumList = new List<int>();
+            int proteinSumInMilkProduct = 0;
 
             foreach (MyRecipe recipe in MyRecipe.MyRecipes)
             {
@@ -433,11 +412,33 @@ namespace CookBook.Recipe.Content
 
                 //todo
                 var meatOnly = recipe.Ingredients.OfType<HasProtein>().ToList();
+                meatOnly.ForEach(d => UserIO.WriteLine(d.ProteionGram + "protein gram nevim ceho, protoze pracuju s HasProtein" + (d as Ingredients).Name));
+
+                //todo prepsat foreach
+                foreach (var hasProteinItem in meatOnly)
+                {
+                    if (hasProteinItem is Meat)
+                    {
+                        UserIO.WriteLine((hasProteinItem as Meat).Name + " jsem maso");
+                    }
+                }
+
+                /*meatOnly.ForEach(i => i
+                    if (if i is Meat)
+                {
+
+                }*/
+                
+                var meatOnly2 = recipe.Ingredients.OfType<Meat>().ToList();
+                meatOnly2.ForEach(m => UserIO.WriteLine(m.Name + " " + m.ProteionGram + " proteingram"));
+
+                
 
                 foreach (var ingredient in recipe.Ingredients)
                 {
                     // jenom dotaz s odpovedi ano ne
                     bool hasProtein = ingredient is HasProtein;
+                    bool isMeat = ingredient is Meat;
                     //pokud neni protein vrati null, 
                     //pokud je, vrati rovnou 
                     var hasProtein2 = ingredient as HasProtein;
@@ -447,22 +448,15 @@ namespace CookBook.Recipe.Content
                     }
 
                     //todo co se stane?
-                    var hasProtein3 = ingredient as MilkProduct; 
-                    
-                    /*if (ingredient.GetType() == typeof(Meat))
+                    var hasProtein3 = ingredient as MilkProduct;
+                    if (hasProtein3 != null)
                     {
-                        Meat meatIngredient = (Meat)ingredient;
-                        proteinSumInRecipe += meatIngredient.ProteionGram;
+                        UserIO.WriteLine(hasProtein3.Name + "jsem milk product");
+                        proteinSumInMilkProduct += hasProtein3.ProteionGram;
+                        UserIO.WriteLine("sum milk product " + proteinSumInMilkProduct);
                     }
-
-                    if (ingredient.GetType() == typeof(MilkProduct))
-                    {
-                        MilkProduct milkProductIngredient = (MilkProduct)ingredient;
-                        proteinSumInRecipe += milkProductIngredient.ProteionGram;
-                    }*/
                 }
                 proteinSumList.Add(proteinSumInRecipe);
-                proteinSumInRecipe = 0;
             }
             int index = proteinSumList.IndexOf(proteinSumList.Max());
             UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept s nejvyšším obsahem proteinů: {MyRecipe.MyRecipes[index].Name}.");
