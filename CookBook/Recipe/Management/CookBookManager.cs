@@ -3,6 +3,7 @@ using CookBook.UserIO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace CookBook.Recipe.Content
 {
@@ -401,7 +402,32 @@ namespace CookBook.Recipe.Content
             UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept {recipeWithOldestIngredint.Name} obsahující tuto surovinu: {oldestIngredient.Name} s blížící se expirací: {oldestIngredient.Expiration}.");
         }
 
+        // todo zkopirovat metodu a udelat si nekolik variant, udelam prvni, co funguje, pak druhou lepsi atd.
         public void FindRecipeWithTheHighestProteionContent()
+        {
+            // dotaz jak tady pouzit first? 
+            // dotaz co kdyz nebude zadny recept s proteinem
+            MyRecipe recipeWithHighestProtein = MyRecipe.MyRecipes[0];
+            int proteinSumInRecipe = 0;
+            
+            foreach (MyRecipe recipe in MyRecipe.MyRecipes)
+            {
+                int proteinSumInThisRecipe = 0;
+
+                //OfType operator pro filtrovani, ktery do seznamu prida jenom objekty daneho typu 
+                var ingredientWithProtein = recipe.Ingredients.OfType<HasProtein>().ToList();
+                ingredientWithProtein.ForEach(i => proteinSumInThisRecipe += i.ProteionGram);
+                UserIO.WriteLine($"Tento recept {recipe.Name} ma {proteinSumInThisRecipe} proteinu ");
+                if (proteinSumInRecipe < proteinSumInThisRecipe)
+                {
+                    proteinSumInRecipe = proteinSumInThisRecipe;
+                    recipeWithHighestProtein = recipe;
+                }
+            }
+            UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept s nejvyšším obsahem proteinů: {recipeWithHighestProtein.Name}.");
+        }
+
+        public void FindRecipeWithTheHighestProteionContent2()
         {
             List<int> proteinSumList = new List<int>();
             int proteinSumInMilkProduct = 0;
@@ -417,22 +443,23 @@ namespace CookBook.Recipe.Content
                 //todo prepsat foreach
                 foreach (var hasProteinItem in meatOnly)
                 {
-                    if (hasProteinItem is Meat)
+                    var meatItem = hasProteinItem as Meat;
+                    if (meatItem != null)
                     {
-                        UserIO.WriteLine((hasProteinItem as Meat).Name + " jsem maso");
+                        UserIO.WriteLine(meatItem.Name + " jsem maso");
                     }
                 }
 
-                /*meatOnly.ForEach(i => i
+                /*ingredientWithProtein.ForEach(i => i
                     if (if i is Meat)
                 {
 
                 }*/
-                
+
                 var meatOnly2 = recipe.Ingredients.OfType<Meat>().ToList();
                 meatOnly2.ForEach(m => UserIO.WriteLine(m.Name + " " + m.ProteionGram + " proteingram"));
 
-                
+
 
                 foreach (var ingredient in recipe.Ingredients)
                 {
@@ -442,7 +469,7 @@ namespace CookBook.Recipe.Content
                     //pokud neni protein vrati null, 
                     //pokud je, vrati rovnou 
                     var hasProtein2 = ingredient as HasProtein;
-                    if(hasProtein2 != null)
+                    if (hasProtein2 != null)
                     {
                         proteinSumInRecipe += hasProtein2.ProteionGram;
                     }
@@ -462,7 +489,6 @@ namespace CookBook.Recipe.Content
             UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept s nejvyšším obsahem proteinů: {MyRecipe.MyRecipes[index].Name}.");
         }
 
-        
         public Procedure GetProcedureFromUser()
         {
             UserIO.WriteLine("Vyplňte celkovou délku přípravy pokrmu v minutách.");
