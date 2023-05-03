@@ -403,7 +403,7 @@ namespace CookBook.Recipe.Content
         }
 
         // todo zkopirovat metodu a udelat si nekolik variant, udelam prvni, co funguje, pak druhou lepsi atd.
-        public void FindRecipeWithTheHighestProteionContent()
+        public void FindRecipeWithTheHighestProteionContentBetter()
         {
             // dotaz jak tady pouzit first? 
             // dotaz co kdyz nebude zadny recept s proteinem
@@ -427,7 +427,28 @@ namespace CookBook.Recipe.Content
             UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept s nejvyšším obsahem proteinů: {recipeWithHighestProtein.Name}.");
         }
 
-        public void FindRecipeWithTheHighestProteionContent2()
+        public void FindRecipeWithTheHighestProteionContent()
+        {
+            List<int> proteinSumList = new List<int>();
+
+            foreach (MyRecipe recipe in MyRecipe.MyRecipes)
+            {
+                int proteinSumInRecipe = 0;
+                foreach (var ingredient in recipe.Ingredients)
+                {
+                    var hasProtein = ingredient as HasProtein;
+                    if (hasProtein != null)
+                    {
+                        proteinSumInRecipe += hasProtein.ProteionGram;
+                    }
+                }
+                UserIO.WriteLine($"Tento recept {recipe.Name} ma {proteinSumInRecipe} proteinu ");
+                proteinSumList.Add(proteinSumInRecipe);
+            }
+            int index = proteinSumList.IndexOf(proteinSumList.Max());
+            UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept s nejvyšším obsahem proteinů: {MyRecipe.MyRecipes[index].Name}.");
+        }
+        public void FindRecipeWithTheHighestProteionContentTestMethod()
         {
             List<int> proteinSumList = new List<int>();
             int proteinSumInMilkProduct = 0;

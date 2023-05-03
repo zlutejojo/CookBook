@@ -24,6 +24,7 @@ namespace CookBook
             //cookBookManager.FindRecipeWithTheFastestProcedure();
             //cookBookManager.FindRecipeWithTheNearestIngredientExpiration();
             cookBookManager.FindRecipeWithTheHighestProteionContent();
+            cookBookManager.FindRecipeWithTheHighestProteionContentBetter();
             cookBookManager.RunRecipeApp();
             myConsole.ReadLine();
         }
