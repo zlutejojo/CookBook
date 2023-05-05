@@ -407,25 +407,27 @@ namespace CookBook.Recipe.Content
         {
             // dotaz jak tady pouzit first? 
             // dotaz co kdyz nebude zadny recept s proteinem
-            MyRecipe recipeWithHighestProtein = MyRecipe.MyRecipes[0];
-            int proteinSumInRecipe = 0;
-            
-            foreach (MyRecipe recipe in MyRecipe.MyRecipes)
+            //MyRecipe recipeWithHighestProtein = MyRecipe.MyRecipes[0];
+            //tady musim pouzit firstordefault, jinak by mi to hodilo vyjimku
+            //any - vraci true, pokud v kolekci neco je, jinak false
+            // nebo varianta MyRecipe.MyRecipes != null && MyRecipe.MyRecipes.FirstOrDefault() != null
+            if (MyRecipe.MyRecipes != null && MyRecipe.MyRecipes.Any())
             {
-                int proteinSumInThisRecipe = 0;
+                //Max() by slo pouzit, kdybych potrebovala vratit nejvyssi spocitany soucet proteinu, MyRecipe.MyRecipes.Max()
+                // OrderByDescending mi vrati vsechny recepty serazene, takze porebuju jenom prvni 
+                MyRecipe recipeWithHighestProtein = MyRecipe.MyRecipes
+                    .OrderByDescending(r => r.Ingredients
+                        .OfType<HasProtein>()
+                        .Sum(i => i.ProteionGram))
+                    .First();
 
-                //OfType operator pro filtrovani, ktery do seznamu prida jenom objekty daneho typu 
-                var ingredientWithProtein = recipe.Ingredients.OfType<HasProtein>().ToList();
-                ingredientWithProtein.ForEach(i => proteinSumInThisRecipe += i.ProteionGram);
-                UserIO.WriteLine($"Tento recept {recipe.Name} ma {proteinSumInThisRecipe} proteinu ");
-                if (proteinSumInRecipe < proteinSumInThisRecipe)
-                {
-                    proteinSumInRecipe = proteinSumInThisRecipe;
-                    recipeWithHighestProtein = recipe;
-                }
+                UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept s nejvyšším obsahem proteinů: {recipeWithHighestProtein.Name}.");
+
+                // toto bych si mohla udelat do dvou metod a bude to prehlednejsi, do toho sum bych si dala nejakou metodu, co si vytvorim okem
             }
-            UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept s nejvyšším obsahem proteinů: {recipeWithHighestProtein.Name}.");
         }
+
+        //ukol prepsat nejaky foreach na linq
 
         public void FindRecipeWithTheHighestProteionContent()
         {
