@@ -30,7 +30,7 @@ namespace CookBook.Recipe.Management
             pizzaHermelinSeznamIngredienci.Add(listoveTesto);
             MilkProduct hermelin = new MilkProduct("hermelín", "1 ks", new DateTime(2022, 11, 25), 2, 21, 23, 2);
             pizzaHermelinSeznamIngredienci.Add(hermelin);
-            Others brusinkovyDzem = new Others("brusinkový džem", "1 ks", new DateTime(2023, 6, 30), 3, 0, "kupovaný džem z obchodu, pozor obsahuje hodně sacharidů cca 45 g(sacharidy: 50 g)");
+            Others brusinkovyDzem = new Others("brusinkový džem", "1 ks", new DateTime(2020, 6, 30), 3, 0, "kupovaný džem z obchodu, pozor obsahuje hodně sacharidů cca 45 g(sacharidy: 50 g)");
             pizzaHermelinSeznamIngredienci.Add(brusinkovyDzem);
             MyRecipe pizzaHermelin = new MyRecipe("Hermelínová pizza", 3, pizzaHermelinPriprava, pizzaHermelinSeznamIngredienci);
             MyRecipe.MyRecipes.Add(pizzaHermelin);
@@ -42,7 +42,7 @@ namespace CookBook.Recipe.Management
             pizzaSunkovaSeznamIngredienci.Add(listoveTesto);
             Meat sunka = new Meat("šunka nejvyšší jakosti", "100 g", new DateTime(2022, 11, 17), 0, 20, 4);
             pizzaSunkovaSeznamIngredienci.Add(sunka);
-            MilkProduct eidam = new MilkProduct("eidam", "10 g", new DateTime(2022, 11, 25), 2, 29, 16, 2);
+            MilkProduct eidam = new MilkProduct("eidam", "10 g", new DateTime(2021, 11, 25), 2, 29, 16, 2);
             pizzaSunkovaSeznamIngredienci.Add(eidam);
             VegetablesAndFruits rajce = new VegetablesAndFruits("rajče", "4 ks", new DateTime(2023, 3, 31), 1, "hořčík, sodík, železo, vitamíny: B, C, D", 2);
             pizzaSunkovaSeznamIngredienci.Add(rajce);
@@ -52,7 +52,7 @@ namespace CookBook.Recipe.Management
             //recept ovesna kase
             Procedure ovesnaKasePriprava = new Procedure(15, 0, "Ovesné vločky zalij vařící vodou, zakryj na 15 minut a přidej nakrájené jablko.");
             List<Ingredients> ovesnáKašeSeznamIngredienci = new List<Ingredients>();
-            Others ovesnéVločky = new Others("ovesné vločky", "50 g", new DateTime(2023, 9, 15), 2, 14, "sacharidy: 50 g, vláknina: 16 g");
+            Others ovesnéVločky = new Others("ovesné vločky", "50 g", new DateTime(2024, 9, 15), 2, 14, "sacharidy: 50 g, vláknina: 16 g");
             ovesnáKašeSeznamIngredienci.Add(ovesnéVločky);
             VegetablesAndFruits jablko = new VegetablesAndFruits("jablko", "2 ks", new DateTime(2023, 12, 31), 1, "vitamíny: B, C, E", 3);
             ovesnáKašeSeznamIngredienci.Add(jablko);

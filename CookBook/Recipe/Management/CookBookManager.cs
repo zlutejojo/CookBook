@@ -380,26 +380,24 @@ namespace CookBook.Recipe.Content
 
         public void FindRecipeWithTheNearestIngredientExpiration()
         {
-            //tady si vyberu jakykoliv recept, s kterym budu porovnavat
-            MyRecipe recipeWithOldestIngredint = MyRecipe.MyRecipes.First();
-            //tady si vyberu nejstarsi mozne datum pro porovnani
-            DateTime oldestIngredientExpiration = DateTime.MaxValue;
-            var oldestIngredient = recipeWithOldestIngredint.Ingredients.First();
-            foreach (MyRecipe recipe in MyRecipe.MyRecipes)
-            {
-                //tady nepotrebuju vedet, jestli mam vice stejne expirovanych ingredienci, hledam jen recept, takze mi staci prvni nejstarsi expirace ingredience
-                var ingredientWithExpiration = recipe.Ingredients.OrderBy(e => e.Expiration).First();
+            var orderedRecipesByTheOldestIngredient = MyRecipe.MyRecipes
+                .OrderBy(r => r.Ingredients
+                    // tady jsem si seradila jednotlive ingredience v jednom receptu podle expirace, vysledkem je teda cela ingredience
+                    .OrderBy(e => e.Expiration)
+                    // z cele ingredience si vyberu jenom expiraci, da se udelat i .Expiration, protoze expirace je DateTime, ktery lze porovnat
+                    // porovnani potrebuju, abych mohla seradit recepty podle ingredienci
+                    // v Ingredients nemam implementovane porovnani, takze to LINQ neumi zpracovat a hodi vyjimku
+                    // implementovat IComparable muze mit ten problem, kdyz budu pozdeji chtit porovnat podle neceho jineho nez podle expirace
+                    .Select(i => i.Expiration)
+                    // potrebuju znat jenom nejvyssi expiraci 
+                    .FirstOrDefault());
+            
+            MyRecipe recipeWithTheOldestIngredient = orderedRecipesByTheOldestIngredient.FirstOrDefault();
+            //todo odstranit toto razeni
+            Ingredients theOldestIngredients = recipeWithTheOldestIngredient.Ingredients.OrderBy(i => i.Expiration).FirstOrDefault();
 
-                //kdyz najdu nejakou starsi ingredienci, nez je moje vychozi, tak si ulozim recept a expiraci nejstarsi ingredience
-                //postupne tak projdu vsechny recepty se serazanymi ingrediencemi a vzdy si ukladam recept, kdyz najdu nejaky se starsi ingredineci
-                if (ingredientWithExpiration.Expiration <= oldestIngredientExpiration)
-                {
-                    recipeWithOldestIngredint = recipe;
-                    oldestIngredientExpiration = ingredientWithExpiration.Expiration;
-                    oldestIngredient = ingredientWithExpiration;
-                }
-            }
-            UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept {recipeWithOldestIngredint.Name} obsahující tuto surovinu: {oldestIngredient.Name} s blížící se expirací: {oldestIngredient.Expiration}.");
+            UserIO.WriteLine($"Na zadaný dotaz jsem našel tento recept {recipeWithTheOldestIngredient.Name} " +
+                $"obsahující tuto surovinu: {theOldestIngredients.Name} s blížící se expirací: {theOldestIngredients.Expiration}.");
         }
 
         // todo zkopirovat metodu a udelat si nekolik variant, udelam prvni, co funguje, pak druhou lepsi atd.

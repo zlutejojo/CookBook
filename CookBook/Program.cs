@@ -23,8 +23,9 @@ namespace CookBook
             //cookBookManager.FindRecipeWithGivenIngredient("herm");
             //cookBookManager.FindRecipeWithTheFastestProcedure();
             //cookBookManager.FindRecipeWithTheNearestIngredientExpiration();
-            cookBookManager.FindRecipeWithTheHighestProteionContent();
-            cookBookManager.FindRecipeWithTheHighestProteionContentBetter();
+            //cookBookManager.FindRecipeWithTheHighestProteionContent();
+            //cookBookManager.FindRecipeWithTheHighestProteionContentBetter();
+            cookBookManager.FindRecipeWithTheNearestIngredientExpiration();
             cookBookManager.RunRecipeApp();
             myConsole.ReadLine();
         }
