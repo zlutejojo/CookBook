@@ -1,3 +1,16 @@
+using CookBook.Recipe.Content; // needed only to use the class without full class name
+
+// visibility:
+// inside project only: private, internal, protected, protected internal
+// outside: public, protected (inherited call in another project), 
+// protected internal == protected OR internal
+
+
+// fully qualified name of the class
+CookBook.Recipe.Content.CookBookManager c1;
+CookBookManager c2; // needs using
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
